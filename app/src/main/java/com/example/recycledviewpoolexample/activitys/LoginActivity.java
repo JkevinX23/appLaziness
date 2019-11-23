@@ -1,29 +1,20 @@
 package com.example.recycledviewpoolexample.activitys;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.os.ResultReceiver;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 
 import com.example.recycledviewpoolexample.AuthAsyncIntentService;
+import com.example.recycledviewpoolexample.Constantes;
 import com.example.recycledviewpoolexample.R;
-import com.example.recycledviewpoolexample.dominio.entidades.Usuario;
-import com.example.recycledviewpoolexample.dominio.models.UsuariosViewModel;
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -70,9 +61,9 @@ public class LoginActivity extends AppCompatActivity {
 
         AsyncAuthResultReciver resultReciver = new AsyncAuthResultReciver(new Handler());
         Intent intent = new Intent(this, AuthAsyncIntentService.class);
-        intent.putExtra("gambiarra", resultReciver);
-        intent.putExtra("email", email);
-        intent.putExtra("senha", senha);
+        intent.putExtra(Constantes.RESULT_RECIVER, resultReciver);
+        intent.putExtra(Constantes.EMAIL, email);
+        intent.putExtra(Constantes.SENHA, senha);
         startService(intent);
 
         /*
@@ -101,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if (resultCode == 1) {
                 if (resultData != null)
-                    if (resultData.getBoolean("auth")) {
+                    if (resultData.getBoolean(Constantes.AUTH_KEY)) {
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     } else Snackbar.make(mView, "Senha incorreta", Snackbar.LENGTH_LONG).show();
             } else Snackbar.make(mView, "Email nao cadastrado", Snackbar.LENGTH_LONG).show();

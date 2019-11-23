@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.recycledviewpoolexample.Constantes;
 import com.example.recycledviewpoolexample.Item;
 import com.example.recycledviewpoolexample.R;
 import com.example.recycledviewpoolexample.SubItem;
@@ -147,8 +148,8 @@ public class MainActivity extends AppCompatActivity {
             success = folder.mkdirs();
         }
         if (success)
-            Log.i(CadastrarDiciplinaActivity.TAG, "ROOOT CRIADO");
-        else Log.i(CadastrarDiciplinaActivity.TAG, "ROOT JA EXISTE");
+            Log.i(Constantes.TAG, "ROOOT CRIADO");
+        else Log.i(Constantes.TAG, "ROOT JA EXISTE");
     }
 
     private void setSupportActionBar(Toolbar mToolbar) {

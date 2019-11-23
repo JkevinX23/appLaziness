@@ -1,6 +1,8 @@
 package com.example.recycledviewpoolexample;
 
 public class Constantes {
+    public static final String TAG = "NELORE";
+
     public static final String nome_tabela_diciplinas = "DICIPLINAS";
     public static final String ID_tabela_diciplinas = "ID";
     public static final String diciplina_tabela_diciplinas = "NOME";
@@ -24,4 +26,9 @@ public class Constantes {
     public static final String periodo_tabela_fotos = "PERIODO";
     public static final String diciplina_tabela_fotos = "DICIPLINA";
     public static final String hora_tabela_fotos = "HORA";
+
+    public static final String RESULT_RECIVER = "result_reciver";
+    public static final String EMAIL = "email";
+    public static final String SENHA = "senha";
+    public static final String AUTH_KEY = "auth";
 }

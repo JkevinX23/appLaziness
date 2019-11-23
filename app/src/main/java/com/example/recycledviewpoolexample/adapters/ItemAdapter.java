@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.recycledviewpoolexample.Constantes;
 import com.example.recycledviewpoolexample.Item;
 import com.example.recycledviewpoolexample.R;
 import com.example.recycledviewpoolexample.activitys.TakePhotoActivity;
@@ -60,8 +61,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         itemViewHolder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("NELORE", "CLICKK :: " + itemViewHolder.getAdapterPosition());
-                Log.i("NELORE", item.getItemTitle());
+                Log.i(Constantes.TAG, "CLICKK :: " + itemViewHolder.getAdapterPosition());
+                Log.i(Constantes.TAG, item.getItemTitle());
                 Intent i = new Intent(itemViewHolder.imageButton.getContext(),TakePhotoActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("diciplina",item.getItemTitle());

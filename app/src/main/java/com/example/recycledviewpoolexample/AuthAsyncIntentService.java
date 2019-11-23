@@ -14,7 +14,7 @@ import com.example.recycledviewpoolexample.dominio.entidades.Usuario;
 
 import java.util.List;
 
-public class AuthAsyncIntentService extends IntentService{
+public class AuthAsyncIntentService extends IntentService {
 
     private ResultReceiver resultReceiver;
 
@@ -24,40 +24,42 @@ public class AuthAsyncIntentService extends IntentService{
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        if(intent.hasExtra("gambiarra")){
-            resultReceiver = intent.getParcelableExtra("gambiarra");
-            String email = intent.getStringExtra("email");
-            String senha = intent.getStringExtra("senha");
-            Log.i("NELORE", "a intent chegou krl ::: email :: "+email+" e a senha :: "+senha);
+        if (intent.hasExtra(Constantes.RESULT_RECIVER)) {
+            resultReceiver = intent.getParcelableExtra(Constantes.RESULT_RECIVER);
+            String email = intent.getStringExtra(Constantes.EMAIL);
+            String senha = intent.getStringExtra(Constantes.SENHA);
+            Log.i(Constantes.TAG, "a intent chegou krl ::: email :: " + email + " e a senha :: " + senha);
 
-            if(resultReceiver!=null){
+            if (resultReceiver != null) {
+
                 /*AuthModuleTask moduleTask = new AuthModuleTask();
                 moduleTask.start(this);*/
+
                 EntidadesRoomDatabase db = EntidadesRoomDatabase.getDatabase(getApplication());
                 UsuariosDao dao = db.userDao();
                 List<Usuario> user = dao.get_user(email);
                 Usuario usuario;
-                Log.i("NELORE", "nao deu ruim, glória :::: Size :: "+user.size());
-                if(user.size()>0){
+
+                Log.i(Constantes.TAG, "nao deu ruim, glória :::: Size :: " + user.size());
+
+                if (user.size() > 0) {
                     usuario = user.get(0);
                     Bundle b = new Bundle();
-                    if(email.equals(usuario.getEmail())&&senha.equals(usuario.getSenha())){
+                    if (email.equals(usuario.getEmail()) && senha.equals(usuario.getSenha())) {
 
-                        b.putBoolean("auth",true);
-                        Log.i("NELORE","onSucesso Auth");
-                        resultReceiver.send(1,b);
+                        b.putBoolean(Constantes.AUTH_KEY, true);
+                        Log.i(Constantes.TAG, "onSucesso Auth");
+                        resultReceiver.send(1, b);
+                        stopSelf();
+                    } else {
+                        b.putBoolean(Constantes.AUTH_KEY, false);
+                        Log.i(Constantes.TAG, "errou a senha");
+                        resultReceiver.send(1, b);
                         stopSelf();
                     }
-                    else{
-                        b.putBoolean("auth",false);
-                        Log.i("NELORE","errou a senha");
-                        resultReceiver.send(1,b);
-                        stopSelf();
-                    }
-                }
-                else {
-                    Log.i("NELORE","email inexistente");
-                    resultReceiver.send(0,null);
+                } else {
+                    Log.i(Constantes.TAG, "email inexistente");
+                    resultReceiver.send(0, null);
                     stopSelf();
                 }
             }

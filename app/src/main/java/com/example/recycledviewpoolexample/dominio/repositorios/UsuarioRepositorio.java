@@ -4,14 +4,9 @@ import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.recycledviewpoolexample.activitys.AuthTrueActivity;
-import com.example.recycledviewpoolexample.activitys.MainActivity;
 import com.example.recycledviewpoolexample.dominio.dao.EntidadesRoomDatabase;
 import com.example.recycledviewpoolexample.dominio.dao.UsuariosDao;
 import com.example.recycledviewpoolexample.dominio.entidades.Usuario;
-import com.example.recycledviewpoolexample.dominio.models.UsuariosViewModel;
-
-import java.util.List;
 
 public class UsuarioRepositorio {
 

@@ -18,8 +18,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activitys.AuthTrueActivity">
-        </activity>
         <activity
             android:name=".activitys.RegistrarUsuarioActivity"
             android:windowSoftInputMode="adjustResize"></activity>

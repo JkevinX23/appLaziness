@@ -1,8 +1,8 @@
 package com.example.recycledviewpoolexample.activitys;
 
 import android.content.Intent;
-import android.os.Environment;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -10,25 +10,21 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.recycledviewpoolexample.Constantes;
 import com.example.recycledviewpoolexample.R;
 import com.example.recycledviewpoolexample.dominio.entidades.Diciplina;
 import com.example.recycledviewpoolexample.dominio.models.DiciplinasViewModel;
-import com.example.recycledviewpoolexample.dominio.repositorios.DiciplinaRepositorio;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
-import java.util.List;
 
 public class CadastrarDiciplinaActivity extends AppCompatActivity {
 
 
     public DiciplinasViewModel dvm;
     public LinearLayout ll;
-
-    public static final String TAG = "MEU CADASTRO_DIC";
 
     public static String LOCAL_FOTOS = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_PICTURES + File.separator + "laziness";
 
@@ -99,11 +95,11 @@ public class CadastrarDiciplinaActivity extends AppCompatActivity {
             success = folder.mkdirs();
         }
         if (success) {
-            Log.i(TAG, "PASTA CRIADA");
+            Log.i(Constantes.TAG, "PASTA CRIADA");
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
         } else {
-            Log.i(TAG, "NOME JA CADASTRADO");
+            Log.i(Constantes.TAG, "NOME JA CADASTRADO");
             Toast.makeText(getApplicationContext(), "DICIPLINA JÁ CADASTRADA ", Toast.LENGTH_LONG).show();
             try {
                 Thread.sleep(1000);

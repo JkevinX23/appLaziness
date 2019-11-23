@@ -9,14 +9,12 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
-import com.example.recycledviewpoolexample.BuildConfig;
 import com.example.recycledviewpoolexample.R;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import static com.example.recycledviewpoolexample.activitys.MainActivity.MY_ROOT;
 
@@ -77,7 +75,7 @@ public class TakePhotoActivity extends AppCompatActivity {
         String file_name = "JPEG_" + hora_foto + "_";
         File storage = new File(MY_ROOT + File.separator + diciplina);
         File foto = File.createTempFile(file_name, ".jpg", storage);
-        Log.i("NELORE", "NOME DA FOTO GERADO :: " + file_name + "\nSALVO EM :: " + storage.getName());
+        Log.i(TAG, "NOME DA FOTO GERADO :: " + file_name + "\nSALVO EM :: " + storage.getName());
         return foto;
     }
 
