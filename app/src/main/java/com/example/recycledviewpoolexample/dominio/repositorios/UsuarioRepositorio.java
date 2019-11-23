@@ -29,7 +29,7 @@ public class UsuarioRepositorio {
         Log.i("NELORE", "CHEGOU NO REPOSITORIO");
         Log.i("NELORE", "EMAIL :::: "+email);
         Log.i("NELORE", "SENHA :::: "+senha);
-        new getUserAsyncTask(mDao).execute(email,senha);
+        //new getUserAsyncTask(mDao).execute(email,senha);
         return true;
     }
     public void inserir_usuario(Usuario user){
@@ -74,8 +74,6 @@ public class UsuarioRepositorio {
 
             if(result){
                Log.i("NELORE","ENTRAR");
-
-
             }
             else Log.i("NELORE", "Usuario nao cadastrado");
         }
