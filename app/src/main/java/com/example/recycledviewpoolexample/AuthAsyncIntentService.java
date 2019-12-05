@@ -32,9 +32,6 @@ public class AuthAsyncIntentService extends IntentService {
 
             if (resultReceiver != null) {
 
-                /*AuthModuleTask moduleTask = new AuthModuleTask();
-                moduleTask.start(this);*/
-
                 EntidadesRoomDatabase db = EntidadesRoomDatabase.getDatabase(getApplication());
                 UsuariosDao dao = db.userDao();
                 List<Usuario> user = dao.get_user(email);
