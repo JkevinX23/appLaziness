@@ -67,7 +67,6 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtra(Constantes.SENHA, senha);
         mEmail = email;
         startService(intent);
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
         /*
 

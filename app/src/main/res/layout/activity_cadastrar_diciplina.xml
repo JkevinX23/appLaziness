@@ -1,61 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/linear_vertical_cadastro"
-    tools:context=".activitys.CadastrarDiciplinaActivity">
+    tools:context=".activitys.CadastrarDiciplinaActivity"
+    android:background="@drawable/bg">
+
 
     <Toolbar
         android:id="@+id/tb_cadastro_diciplinas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/amarelo_escuro">
+        android:background="@drawable/bg">
     </Toolbar>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bem vindo \n Precisamos que insira algumas informações para organizarmos suas fotos"
-        android:textColor="@color/amarelo_escuro"
-        android:textSize="30sp"
+        android:text="Bem vindo \n Vamos organizarmos suas fotos"
+        android:textColor="#FFF"
+        android:textSize="20sp"
         android:gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
 
     <EditText
         android:id="@+id/et_nome_diciplina_cadastro_diciplina"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:ems="10"
         android:hint="Insira o nome da diciplina"
-        android:textColorHint="@color/amarelo_escuro"
+        android:background="@drawable/edit_text_top"
+        android:padding="15dp"
         android:theme="@style/EditeTextTheme"/>
 
     <EditText
         android:id="@+id/et_nome_professor_cadastro_diciplina"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:ems="10"
         android:hint="Insira o nome do professor"
-        android:textColorHint="@color/amarelo_escuro"
+        android:background="@drawable/edit_text_top"
+        android:padding="15dp"
         android:theme="@style/EditeTextTheme"/>
 
     <EditText
         android:id="@+id/et_periodo_letivo_cadastro_diciplina"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:ems="10"
         android:inputType="number"
         android:hint="Insira o periodo letivo"
-        android:textColorHint="@color/amarelo_escuro"
+        android:background="@drawable/edit_text_top"
+        android:padding="15dp"
         android:theme="@style/EditeTextTheme"/>
-
-
-
 
     <Button
         android:id="@+id/button"
@@ -63,9 +69,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:background="@color/amarelo_escuro"
-        android:textColor="@android:color/white"
         android:text="confirmar"
         android:onClick="criarDiciplina"
+        android:background="@drawable/button"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:textAllCaps="false"
+        android:textColor="#FE5295"
+        android:textSize="17sp"
         />
+    </LinearLayout>
 </LinearLayout>

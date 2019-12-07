@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,6 +20,7 @@ import com.example.recycledviewpoolexample.dominio.models.DiciplinasViewModel;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
+import java.util.Objects;
 
 public class CadastrarDiciplinaActivity extends AppCompatActivity {
 
@@ -33,8 +35,34 @@ public class CadastrarDiciplinaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastrar_diciplina);
         ll = findViewById(R.id.linear_vertical_cadastro);
-
         dvm = new ViewModelProvider(this).get(DiciplinasViewModel.class);
+
+        Toolbar tb = findViewById(R.id.tb_cadastro_diciplinas);
+        setSupportActionBar(tb);
+        
+
+    }
+
+    private void setSupportActionBar(Toolbar tb) {
+        tb.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back));
+        tb.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                limparCampos();
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            }
+        });
+
+    }
+
+    private void limparCampos() {
+        EditText et_nome_dic = findViewById(R.id.et_nome_diciplina_cadastro_diciplina);
+        EditText et_professor = findViewById(R.id.et_nome_professor_cadastro_diciplina);
+        EditText et_periodo = findViewById(R.id.et_periodo_letivo_cadastro_diciplina);
+
+        et_nome_dic.getText().clear();
+        et_professor.getText().clear();
+        et_periodo.getText().clear();
     }
 
     public void criarDiciplina(View view) {
@@ -64,8 +92,9 @@ public class CadastrarDiciplinaActivity extends AppCompatActivity {
             dic.append(periodo);
 
             inserir_banco(nome_dic, professor, periodo);
-            //criar_diretorio(dic.toString());
             criar_diretorio(nome_dic);
+            limparCampos();
+
         }
 
 
@@ -76,7 +105,7 @@ public class CadastrarDiciplinaActivity extends AppCompatActivity {
         dic.diciplina = nome_dic;
         dic.professor = professor;
         dic.periodo = periodo;
-
+        dic.caminho = LOCAL_FOTOS+File.separator+nome_dic;
         dvm.insert_dic(dic);
     }
 
@@ -106,8 +135,7 @@ public class CadastrarDiciplinaActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Intent i = new Intent(getApplicationContext(), CadastrarDiciplinaActivity.class);
-            startActivity(i);
+           limparCampos();
         }
     }
 }

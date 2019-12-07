@@ -1,21 +1,24 @@
 package com.example.recycledviewpoolexample;
 
+import com.example.recycledviewpoolexample.dominio.entidades.Diciplina;
+import com.example.recycledviewpoolexample.dominio.entidades.Foto;
+
 public class SubItem {
 
-    private String foto;
-    private String pasta;
+    private Foto foto;
+    private Diciplina mDiciplina;
 
-    public SubItem(String pasta, String foto) {
-        this.pasta = pasta;
+    public SubItem(Diciplina diciplina, Foto foto) {
+        this.mDiciplina = diciplina;
         this.foto = foto;
     }
 
-    public String getSubItemImage() {
+    public Foto getSubItemImage() {
         return foto;
     }
 
-    public String getPasta () {
-        return pasta;
+    public Diciplina getPasta () {
+        return mDiciplina;
     }
 
 }

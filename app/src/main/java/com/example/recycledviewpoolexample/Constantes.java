@@ -4,7 +4,7 @@ public class Constantes {
     public static final String TAG = "NELORE";
 
     public static final String nome_tabela_diciplinas = "DICIPLINAS";
-    public static final String ID_tabela_diciplinas = "ID_DIC";
+    public static final String CAMINHO_PASTA = "CAMINHO_PASTA";
     public static final String diciplina_tabela_diciplinas = "NOME";
     public static final String professor_tabela_diciplinas = "PROFESSOR";
     public static final String aulas_tabela_diciplinas = "AULAS";
@@ -28,7 +28,7 @@ public class Constantes {
     public static final String id_tabela_fotos = "ID";
     public static final String data_tabela_fotos = "DATA";
     public static final String periodo_tabela_fotos = "PERIODO";
-    public static final String diciplina_tabela_fotos = "DICIPLINA";
+    public static final String id_diciplina_tabela_fotos = "ID_DICIPLINA";
     public static final String hora_tabela_fotos = "HORA";
 
     public static final String nome_tabela_horario = "HORARIOS";

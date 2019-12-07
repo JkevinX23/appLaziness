@@ -18,6 +18,7 @@ import com.example.recycledviewpoolexample.Constantes;
 import com.example.recycledviewpoolexample.Item;
 import com.example.recycledviewpoolexample.R;
 import com.example.recycledviewpoolexample.activitys.TakePhotoActivity;
+import com.example.recycledviewpoolexample.dominio.entidades.Diciplina;
 
 import java.util.List;
 
@@ -42,7 +43,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public void onBindViewHolder(@NonNull final ItemViewHolder itemViewHolder, final int i) {
         final Item item = itemList.get(i);
-        itemViewHolder.tvItemTitle.setText(item.getItemTitle());
+        final Diciplina diciplina = item.getItemDic();
+
+        itemViewHolder.tvItemTitle.setText(diciplina.diciplina);
 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(
@@ -62,10 +65,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             @Override
             public void onClick(View v) {
                 Log.i(Constantes.TAG, "CLICKK :: " + itemViewHolder.getAdapterPosition());
-                Log.i(Constantes.TAG, item.getItemTitle());
                 Intent i = new Intent(itemViewHolder.imageButton.getContext(),TakePhotoActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("diciplina",item.getItemTitle());
+                bundle.putString("caminho",diciplina.caminho);
                 i.putExtras(bundle);
                 itemViewHolder.imageButton.getContext().startActivity(i);
 

@@ -1,18 +1,21 @@
 package com.example.recycledviewpoolexample;
 
+import com.example.recycledviewpoolexample.dominio.entidades.Diciplina;
+
 import java.util.List;
 
 public class Item {
+    private Diciplina dic;
     private String itemTitle;
     private List<SubItem> subItemList;
 
-    public Item(String itemTitle, List<SubItem> subItemList) {
-        this.itemTitle = itemTitle;
+    public Item(Diciplina diciplina, List<SubItem> subItemList) {
+        this.dic = diciplina;
         this.subItemList = subItemList;
     }
 
-    public String getItemTitle() {
-        return itemTitle;
+    public Diciplina getItemDic() {
+        return dic;
     }
 
     public void setItemTitle(String itemTitle) {

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recycledviewpoolexample.R;
 import com.example.recycledviewpoolexample.SubItem;
+import com.example.recycledviewpoolexample.dominio.entidades.Foto;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -40,25 +41,26 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemV
     @Override
     public void onBindViewHolder(@NonNull SubItemViewHolder subItemViewHolder, int i) {
         SubItem subItem = subItemList.get(i);
+        Foto fotoObject = subItem.getSubItemImage();
 
-        File file = new File(MY_ROOT + File.separator + subItem.getPasta()+File.separator + subItem.getSubItemImage());
-        if(file.exists() && file.canRead()){
+        File file = new File(subItem.getPasta().caminho+ File.separator + fotoObject.nome_foto);
+        if (file.exists() && file.canRead()) {
             FileInputStream fis = null;
             try {
                 fis = new FileInputStream(file);
                 BufferedInputStream bufferedInputStream = new BufferedInputStream(fis);
                 Bitmap foto = BitmapFactory.decodeStream(bufferedInputStream);
-                Bitmap resized = Bitmap.createScaledBitmap(foto,60,60,false);
+                Bitmap resized = Bitmap.createScaledBitmap(foto, 60, 60, false);
                 subItemViewHolder.iv.setImageBitmap(resized);
-
+                subItemViewHolder.data.setText(fotoObject.data);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
 
 
-       // SubItem subItem = subItemList.get(i);
-       // subItemViewHolder.tvSubItemTitle.setText(subItem.getSubItemTitle());
+        // SubItem subItem = subItemList.get(i);
+        // subItemViewHolder.tvSubItemTitle.setText(subItem.getSubItemTitle());
     }
 
     @Override
@@ -67,12 +69,13 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemV
     }
 
     class SubItemViewHolder extends RecyclerView.ViewHolder {
-        TextView tvSubItemTitle;
+        TextView data;
         ImageView iv;
 
         SubItemViewHolder(View itemView) {
             super(itemView);
             iv = itemView.findViewById(R.id.iv_sub_item);
+            data = itemView.findViewById(R.id.tv_data);
         }
     }
 }

@@ -2,10 +2,13 @@ package com.example.recycledviewpoolexample.activitys;
 
 import android.Manifest;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -20,7 +23,10 @@ import com.example.recycledviewpoolexample.Item;
 import com.example.recycledviewpoolexample.R;
 import com.example.recycledviewpoolexample.SubItem;
 import com.example.recycledviewpoolexample.adapters.ItemAdapter;
+import com.example.recycledviewpoolexample.dominio.dao.EntidadesRoomDatabase;
+import com.example.recycledviewpoolexample.dominio.dao.FotoDao;
 import com.example.recycledviewpoolexample.dominio.entidades.Diciplina;
+import com.example.recycledviewpoolexample.dominio.entidades.Foto;
 import com.example.recycledviewpoolexample.dominio.models.DiciplinasViewModel;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -30,23 +36,30 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private List<String> mFolders;
-    private List<String> mDiciplinas;
+    private List<Diciplina> mDiciplinas;
+    private List<Foto> mFotos = null;
+    private FotoDao fotoDao;
 
     public static String EMAIL_USER;
+
+    public int service = 0;
 
     private static final String TAG = "NELORE LOCAIS :::::";
 
     public static final String MY_ROOT = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_PICTURES + File.separator + "laziness";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EntidadesRoomDatabase db = EntidadesRoomDatabase.getDatabase(getApplication());
+        fotoDao = db.fotoDao();
+
         setContentView(R.layout.activity_main);
         verificarPermissoes();
         criar_root();
@@ -65,20 +78,30 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getmAllDics().observe(this, new Observer<List<Diciplina>>() {
             @Override
             public void onChanged(List<Diciplina> diciplinas) {
-                Log.i(TAG, "DIC SIZE :: " + diciplinas.size());
                 for (int i = 0; i < diciplinas.size(); i++) {
-                    if(!(listDic.contains((diciplinas.get(i)).diciplina))){
+
+                    if (!(listDic.contains((diciplinas.get(i))))) {
                         Log.i(TAG, "NELOREEEE ::: " + diciplinas.get(i).diciplina);
                         listDic.add(diciplinas.get(i));
-                        mDiciplinas.add(listDic.get(i).diciplina);
+                        mDiciplinas.add(listDic.get(i));
                     }
-
                 }
+
+
                 RecyclerView rvItem = findViewById(R.id.rv_item);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-                ItemAdapter itemAdapter = new ItemAdapter(getApplicationContext(),buildItemList());
+                ItemAdapter itemAdapter = new ItemAdapter(getApplicationContext(), buildItemList());
                 rvItem.setAdapter(itemAdapter);
                 rvItem.setLayoutManager(layoutManager);
+
+                TextView tv = findViewById(R.id.tv_nenhuma_diciplina_main);
+                if (listDic.size() > 0) {
+                    rvItem.setVisibility(View.VISIBLE);
+                    tv.setVisibility(View.GONE);
+                } else {
+                    rvItem.setVisibility(View.GONE);
+                    tv.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -170,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Item> buildItemList() {
         List<Item> itemList = new ArrayList<>();
-        Log.i(TAG, "nDic :: " + mDiciplinas.size());
         for (int i = 0; i < mDiciplinas.size(); i++) {
             Log.i(TAG, "ADICIONANDO DICIPLINA A RV :: " + mDiciplinas.get(i));
             Item item = new Item(mDiciplinas.get(i), buildSubItemList(mDiciplinas.get(i)));
@@ -179,22 +201,52 @@ public class MainActivity extends AppCompatActivity {
         return itemList;
     }
 
-    private List<SubItem> buildSubItemList(String dic) {
+    private List<SubItem> buildSubItemList(Diciplina dic) {
         List<SubItem> subItemList = new ArrayList<>();
-        List<String> fotos = new ArrayList<>();
-        fotos = getSubItem(dic);
-        for (int i = 0; i < fotos.size(); i++) {
-            SubItem subItem = new SubItem(dic, fotos.get(i));
-            subItemList.add(subItem);
+        getSubItem(dic);
+        Log.i(TAG, "is null?");
+        if (mFotos != null) {
+            Log.i(TAG, "PASSOU NO FILTRO NULL");
+            for (int i = 0; i < mFotos.size(); i++) {
+                Log.i(TAG, "EXISTEM FOTOS AQUI EM");
+                SubItem subItem = new SubItem(dic, mFotos.get(i));
+                subItemList.add(subItem);
+            }
+            mFotos = null;
+            service = 0;
+            Log.i(TAG, "SAIU");
         }
         return subItemList;
     }
 
-    private List<String> getSubItem(String dic) {
-        File file = new File(MY_ROOT + File.separator + dic);
-        List<String> n = new ArrayList<String>();
-        n = Arrays.asList(file.list());
-        return n;
+    private void getSubItem(Diciplina dic) {
+        new getFotosAsyncTask(fotoDao).execute(dic);
+        while (service == 0) {
+            Log.i(TAG, "RODANDO O LOOOOPP");
+        }
+        Log.i(TAG, "SAAAAIIUUUUUUU");
     }
 
+    public class getFotosAsyncTask extends AsyncTask<Diciplina, Void, Void> {
+        FotoDao mDao;
+        List<Foto> mFotos;
+
+        getFotosAsyncTask(FotoDao fotoDao) {
+            mDao = fotoDao;
+        }
+
+        @Override
+        protected Void doInBackground(Diciplina... diciplinas) {
+            Log.i(TAG, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXx");
+            Log.i(TAG, diciplinas[0].diciplina);
+            paraLoop( mDao.getFotosPorDiciplina(diciplinas[0].caminho));
+            return null;
+        }
+    }
+
+    private void paraLoop(List<Foto> fotos) {
+        Log.i(TAG, "SAINDO DO LOOP3");
+        mFotos = fotos;
+        service = 1;
+    }
 }

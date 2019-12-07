@@ -1,10 +1,9 @@
 package com.example.recycledviewpoolexample.dominio.entidades;
 
 
-import androidx.core.net.ConnectivityManagerCompat;
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import com.example.recycledviewpoolexample.Constantes;
@@ -12,9 +11,10 @@ import com.example.recycledviewpoolexample.Constantes;
 @Entity(tableName = Constantes.nome_tabela_diciplinas)
 public class Diciplina {
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = Constantes.ID_tabela_diciplinas)
-    public int id;
+    @PrimaryKey()
+    @NonNull
+    @ColumnInfo(name = Constantes.CAMINHO_PASTA)
+    public String caminho;
 
     @ColumnInfo(name = Constantes.diciplina_tabela_diciplinas)
     public String diciplina;

@@ -4,14 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#EAB97D"
     >
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
-        app:cardBackgroundColor="#F9EDDD"
         app:cardElevation="8dp">
 
         <LinearLayout
@@ -32,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:padding="12sp"
                     android:textStyle="bold"
-                    android:textColor="@color/amarelo_escuro"
+                    android:textColor="#FE5295"
                     android:textAlignment="viewStart"
                     android:textSize="18sp" />
 
