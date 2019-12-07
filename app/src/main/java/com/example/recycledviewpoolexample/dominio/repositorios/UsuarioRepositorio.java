@@ -18,7 +18,7 @@ public class UsuarioRepositorio {
         Log.i("NELORE", "mDao EXISTE");
         mDao = db.userDao();
     }
-
+/*
     public Boolean getUser(String email, String senha) {
 
         Log.i("NELORE", "CHEGOU NO REPOSITORIO");
@@ -26,12 +26,35 @@ public class UsuarioRepositorio {
         Log.i("NELORE", "SENHA :::: "+senha);
         //new getUserAsyncTask(mDao).execute(email,senha);
         return true;
-    }
+    }*/
     public void inserir_usuario(Usuario user){
         new insertAsyncTask(mDao).execute(user);
     }
 
-    private static class getUserAsyncTask extends AsyncTask<String, Void, Boolean >{
+    private static class insertAsyncTask extends AsyncTask<Usuario, Void, Void> {
+
+        private UsuariosDao mAsyncTaskDao;
+
+        insertAsyncTask(UsuariosDao dao) {
+            mAsyncTaskDao = dao;
+        }
+        @Override
+        protected Void doInBackground(final Usuario... params) {
+            mAsyncTaskDao.inserir_usuario(params[0]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Log.i("NELORE", "INSERIU ");
+        }
+    }
+
+
+
+
+    /*private static class getUserAsyncTask extends AsyncTask<String, Void, Boolean >{
         private UsuariosDao dao;
 
         private getUserAsyncTask(UsuariosDao dao) {
@@ -73,25 +96,5 @@ public class UsuarioRepositorio {
             else Log.i("NELORE", "Usuario nao cadastrado");
         }
     }
-
-    private static class insertAsyncTask extends AsyncTask<Usuario, Void, Void> {
-
-        private UsuariosDao mAsyncTaskDao;
-
-        insertAsyncTask(UsuariosDao dao) {
-            mAsyncTaskDao = dao;
-        }
-        @Override
-        protected Void doInBackground(final Usuario... params) {
-            mAsyncTaskDao.inserir_usuario(params[0]);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Log.i("NELORE", "INSERIU ");
-        }
-    }
-
+*/
 }

@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private List<String> mFolders;
     private List<String> mDiciplinas;
 
+    public static String EMAIL_USER;
+
     private static final String TAG = "NELORE LOCAIS :::::";
 
     public static final String MY_ROOT = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_PICTURES + File.separator + "laziness";

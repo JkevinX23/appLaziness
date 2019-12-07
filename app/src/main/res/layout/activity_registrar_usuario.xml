@@ -71,6 +71,35 @@
             android:hint="Senha"
             android:inputType="textPassword"
             android:padding="15dp"/>
+        <EditText
+            android:id="@+id/et_curso_cadastro_usuario_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_middle"
+            android:hint="curso"
+            android:padding="15dp"/>
+        <EditText
+            android:id="@+id/et_idade_cadastro_usuario_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_middle"
+            android:hint="idade"
+            android:inputType="number"
+            android:padding="15dp"/>
+
+        <TextView
+            android:id="@+id/tv_sexo_cadastro_usuario_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_middle"
+            android:padding="15dp"
+            android:textSize="16sp"
+            android:hint="sexo"/>
+
+            <RadioGroup
+                android:id="@+id/rg_sexo_cadastro_usuario_activity"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent" />
 
         <Button
             android:id="@+id/bt_confirmar_cadastro_usuario_activity"

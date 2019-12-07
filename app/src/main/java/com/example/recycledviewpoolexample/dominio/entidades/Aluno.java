@@ -4,19 +4,20 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
 
 import com.example.recycledviewpoolexample.Constantes;
 
 @Entity(tableName = "aluno")
 public class Aluno {
 
-
+    @PrimaryKey @NonNull
     @ForeignKey(entity = Usuario.class,
             parentColumns = Constantes.email_tabela_usuario,
             childColumns = "id_usuario",
             onUpdate = ForeignKey.CASCADE)
     @ColumnInfo(name = "id_usuario")
-    public String usuario;
+    public String usuario; // email
 
 
     @ColumnInfo(name= Constantes.nome_aluno_tabela_aluno)
@@ -26,5 +27,5 @@ public class Aluno {
     @ColumnInfo(name= Constantes.curso_tabela_aluno)
     public String curso;
     @ColumnInfo(name= Constantes.sexo_tabela_aluno)
-    public int sexo;
+    public String sexo;
 }

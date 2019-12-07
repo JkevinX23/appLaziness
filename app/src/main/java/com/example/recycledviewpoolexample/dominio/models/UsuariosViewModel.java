@@ -14,10 +14,10 @@ public class UsuariosViewModel extends AndroidViewModel {
         super(application);
         mRepositorio = new UsuarioRepositorio(getApplication());
     }
-
+/*
     public Boolean getUsuario(String email,String senha){
       return mRepositorio.getUser(email,senha);
-    }
+    }*/
 
     public void insert_user(Usuario user){
         mRepositorio.inserir_usuario(user);

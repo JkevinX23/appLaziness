@@ -19,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar;
 public class LoginActivity extends AppCompatActivity {
 
     public View mView;
+    public String mEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +65,14 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtra(Constantes.RESULT_RECIVER, resultReciver);
         intent.putExtra(Constantes.EMAIL, email);
         intent.putExtra(Constantes.SENHA, senha);
-        //startService(intent);
+        mEmail = email;
+        startService(intent);
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
         /*
 
-        UsuariosViewModel uvm = new UsuariosViewModel(getApplication());
-        if(uvm.getUsuario(email,senha)){
+        UsuariosViewModel usuariosViewModel = new UsuariosViewModel(getApplication());
+        if(usuariosViewModel.getUsuario(email,senha)){
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
         }
         Log.i("NELORE", " NOME DO USUARIO ::: ");*/
@@ -94,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
             if (resultCode == 1) {
                 if (resultData != null)
                     if (resultData.getBoolean(Constantes.AUTH_KEY)) {
+                        MainActivity.EMAIL_USER = mEmail;
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     } else Snackbar.make(mView, "Senha incorreta", Snackbar.LENGTH_LONG).show();
             } else Snackbar.make(mView, "Email nao cadastrado", Snackbar.LENGTH_LONG).show();
