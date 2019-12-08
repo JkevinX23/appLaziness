@@ -15,6 +15,7 @@ import java.util.List;
 public class DiciplinaRepositorio {
     private DiciplinasDao mDao;
     private LiveData<List<Diciplina>> mAllDic;
+    private LiveData<List<Diciplina>> diciplinaList;
 
     public DiciplinaRepositorio(Application application) {
         EntidadesRoomDatabase db = EntidadesRoomDatabase.getDatabase(application);
@@ -28,6 +29,11 @@ public class DiciplinaRepositorio {
 
     public void insert_dic(Diciplina dic) {
         new insertAsyncTask(mDao).execute(dic);
+    }
+
+    public LiveData<List<Diciplina>>getDisciplinaByUser(String user){
+        diciplinaList = mDao.getDisciplinaFromUser(user);
+        return diciplinaList;
     }
 
     private static class insertAsyncTask extends AsyncTask<Diciplina, Void, Void> {

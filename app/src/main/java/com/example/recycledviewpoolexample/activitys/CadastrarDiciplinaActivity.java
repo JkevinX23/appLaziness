@@ -24,6 +24,7 @@ import java.util.Objects;
 
 public class CadastrarDiciplinaActivity extends AppCompatActivity {
 
+    private String mEmail;
 
     public DiciplinasViewModel dvm;
     public LinearLayout ll;
@@ -36,6 +37,14 @@ public class CadastrarDiciplinaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cadastrar_diciplina);
         ll = findViewById(R.id.linear_vertical_cadastro);
         dvm = new ViewModelProvider(this).get(DiciplinasViewModel.class);
+
+        Intent i = getIntent();
+        Bundle b = i.getExtras();
+       if(b!=null){
+           mEmail = b.getString("email");
+           Log.i("NELORE", "EMAIL USUARIO :: "+mEmail);
+       }
+
 
         Toolbar tb = findViewById(R.id.tb_cadastro_diciplinas);
         setSupportActionBar(tb);
@@ -106,6 +115,7 @@ public class CadastrarDiciplinaActivity extends AppCompatActivity {
         dic.professor = professor;
         dic.periodo = periodo;
         dic.caminho = LOCAL_FOTOS+File.separator+nome_dic;
+        dic.userId = mEmail;
         dvm.insert_dic(dic);
     }
 

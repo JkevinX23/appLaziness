@@ -76,9 +76,10 @@ public class MainActivity extends AppCompatActivity {
         DiciplinasViewModel viewModel = new ViewModelProvider(this).get(DiciplinasViewModel.class);
         final List<Diciplina> listDic = new ArrayList<>();
         mDiciplinas = new ArrayList<>();
-        viewModel.getmAllDics().observe(this, new Observer<List<Diciplina>>() {
+        viewModel.getlDisciplinasByUSer(EMAIL_USER).observe(this, new Observer<List<Diciplina>>() {
             @Override
             public void onChanged(List<Diciplina> diciplinas) {
+                nenhumaDiciplinaTextView();
                 RecyclerView rvItem = findViewById(R.id.rv_item);
                 for (int i = 0; i < diciplinas.size(); i++) {
                     TextView tv = findViewById(R.id.tv_nenhuma_diciplina_main);
@@ -191,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 if (R.id.menu_item_cadastrar_dic == item.getItemId()) {
                     Intent i = new Intent(getApplicationContext(), CadastrarDiciplinaActivity.class);
+                    i.putExtra("email",EMAIL_USER);
                     startActivity(i);
                 }
                 return true;

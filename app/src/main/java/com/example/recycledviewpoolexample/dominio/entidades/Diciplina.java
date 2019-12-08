@@ -4,16 +4,23 @@ package com.example.recycledviewpoolexample.dominio.entidades;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import com.example.recycledviewpoolexample.Constantes;
 
 import java.io.Serializable;
 
-@Entity(tableName = Constantes.nome_tabela_diciplinas)
+import static androidx.room.ForeignKey.CASCADE;
+
+@Entity(tableName = Constantes.nome_tabela_diciplinas,
+        foreignKeys = @ForeignKey(entity = Aluno.class,
+                parentColumns = "id_usuario",
+                childColumns = "user_id",onDelete = CASCADE))
+
 public class Diciplina implements Serializable {
 
-    @PrimaryKey()
+    @PrimaryKey
     @NonNull
     @ColumnInfo(name = Constantes.CAMINHO_PASTA)
     public String caminho;
@@ -29,5 +36,9 @@ public class Diciplina implements Serializable {
 
     @ColumnInfo
     public int horario;
+
+    @ColumnInfo(name = "user_id")
+    public String userId;
+
 
 }

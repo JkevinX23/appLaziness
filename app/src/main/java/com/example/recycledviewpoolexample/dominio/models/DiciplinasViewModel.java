@@ -14,12 +14,17 @@ public class DiciplinasViewModel extends AndroidViewModel {
 
     private DiciplinaRepositorio mRepositorio;
     private LiveData<List<Diciplina>> mAllDics;
+    private LiveData<List<Diciplina>> lDisciplinasByUSer;
 
     public DiciplinasViewModel(Application application) {
         super(application);
 
         mRepositorio = new DiciplinaRepositorio(application);
         mAllDics = mRepositorio.getAlldic();
+    }
+
+    public LiveData<List<Diciplina>>getlDisciplinasByUSer(String user){
+        return mRepositorio.getDisciplinaByUser(user);
     }
 
     public LiveData<List<Diciplina>>getmAllDics(){
