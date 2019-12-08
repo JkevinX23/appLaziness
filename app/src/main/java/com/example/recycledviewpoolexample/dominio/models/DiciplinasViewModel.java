@@ -23,6 +23,10 @@ public class DiciplinasViewModel extends AndroidViewModel {
         mAllDics = mRepositorio.getAlldic();
     }
 
+    public void remove_disciplina(Diciplina d){
+        mRepositorio.deleteDisciplina(d);
+    }
+
     public LiveData<List<Diciplina>>getlDisciplinasByUSer(String user){
         return mRepositorio.getDisciplinaByUser(user);
     }

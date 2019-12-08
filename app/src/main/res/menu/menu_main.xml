@@ -7,4 +7,8 @@
         android:id="@+id/menu_item_cadastrar_dic"
         android:title="Adicionar diciplina"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_item_remover_dic"
+        android:title="Remover diciplina"
+        app:showAsAction="never" />
 </menu>

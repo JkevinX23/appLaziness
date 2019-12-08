@@ -2,6 +2,7 @@ package com.example.recycledviewpoolexample.dominio.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -16,6 +17,9 @@ public interface DiciplinasDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void inserir_diciplina(Diciplina diciplina);
+
+    @Delete
+    void delete_disciplina(Diciplina diciplina);
 
     @Query("DELETE FROM "+ Constantes.nome_tabela_diciplinas)
     void delete_diciplina_all();

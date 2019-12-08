@@ -120,7 +120,6 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
         TextView tv = v.findViewById(R.id.tv_sexo_cadastro_usuario_activity);
         switch (select[0]) {
             case 0:
-
                 tv.setText("Masculino");
                 break;
             case 1:

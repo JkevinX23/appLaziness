@@ -17,6 +17,10 @@ public class DiciplinaRepositorio {
     private LiveData<List<Diciplina>> mAllDic;
     private LiveData<List<Diciplina>> diciplinaList;
 
+    public void deleteDisciplina(Diciplina d){
+        new deleteDisciplinaAsync(mDao).execute(d);
+    }
+
     public DiciplinaRepositorio(Application application) {
         EntidadesRoomDatabase db = EntidadesRoomDatabase.getDatabase(application);
         mDao = db.dicDao();
@@ -48,6 +52,19 @@ public class DiciplinaRepositorio {
         protected Void doInBackground(final Diciplina... params) {
             Log.i("NELORE", "INSERIU ");
             mAsyncTaskDao.inserir_diciplina(params[0]);
+            return null;
+        }
+    }
+
+    private class deleteDisciplinaAsync extends AsyncTask<Diciplina,Void,Void> {
+        DiciplinasDao dao;
+        public deleteDisciplinaAsync(DiciplinasDao mDao) {
+        this.dao = mDao;
+        }
+
+        @Override
+        protected Void doInBackground(Diciplina... diciplinas) {
+            dao.delete_disciplina(diciplinas[0]);
             return null;
         }
     }

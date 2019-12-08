@@ -1,6 +1,7 @@
 package com.example.recycledviewpoolexample.activitys;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,10 +9,12 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -23,11 +26,13 @@ import com.example.recycledviewpoolexample.Item;
 import com.example.recycledviewpoolexample.R;
 import com.example.recycledviewpoolexample.SubItem;
 import com.example.recycledviewpoolexample.adapters.ItemAdapter;
+import com.example.recycledviewpoolexample.dominio.dao.DiciplinasDao;
 import com.example.recycledviewpoolexample.dominio.dao.EntidadesRoomDatabase;
 import com.example.recycledviewpoolexample.dominio.dao.FotoDao;
 import com.example.recycledviewpoolexample.dominio.entidades.Diciplina;
 import com.example.recycledviewpoolexample.dominio.entidades.Foto;
 import com.example.recycledviewpoolexample.dominio.models.DiciplinasViewModel;
+import com.google.android.material.snackbar.Snackbar;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -109,19 +114,19 @@ public class MainActivity extends AppCompatActivity {
             mFolders = new ArrayList();
             int size = files.length;
             Log.i(TAG, "EXISTEM " + size + " FILES NO DIRETORIO");
-            if(size==0)
+            if (size == 0)
                 nenhumaDiciplinaTextView();
             else
-            for (int i = 0; i < size; i++) {
-                Log.i(TAG, "FILE: " + files[i].getName());
-                if (files[i].isDirectory()) {
-                    mFolders.add(files[i].getName());
-                    Log.i(TAG, "DIRETORIO: " + files[i].getName());
+                for (int i = 0; i < size; i++) {
+                    Log.i(TAG, "FILE: " + files[i].getName());
+                    if (files[i].isDirectory()) {
+                        mFolders.add(files[i].getName());
+                        Log.i(TAG, "DIRETORIO: " + files[i].getName());
+                    }
                 }
-            }
             return true;
 
-        } else{
+        } else {
             Log.i(TAG, "NENHUMA PASTA ENCONTRADA");
             nenhumaDiciplinaTextView();
         }
@@ -192,14 +197,64 @@ public class MainActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 if (R.id.menu_item_cadastrar_dic == item.getItemId()) {
                     Intent i = new Intent(getApplicationContext(), CadastrarDiciplinaActivity.class);
-                    i.putExtra("email",EMAIL_USER);
+                    i.putExtra("email", EMAIL_USER);
                     startActivity(i);
+                }
+
+
+                if (R.id.menu_item_remover_dic == item.getItemId()) {
+                    Log.i("NELORE", "hueheuehueheueh");
+                    removeDisciplina();
                 }
                 return true;
             }
         });
     }
 
+    private void removeDisciplina() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Ecluir disciplina");
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                MainActivity.this,
+                android.R.layout.simple_list_item_single_choice);
+        if(!mDiciplinas.isEmpty()){
+            for (int i = 0; i<mDiciplinas.size();i++){
+                arrayAdapter.add(mDiciplinas.get(i).diciplina);
+            }
+            final int[] select = {0};
+            builder.setSingleChoiceItems(arrayAdapter, 1, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            builder.setPositiveButton("CONFIRMAR", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.i(TAG,"pode apagar seu puto");
+                    removeDisciplina(mDiciplinas.get(which));
+                }
+            });
+            builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.i(TAG,"VAI APAGAR NADA AQUII NAO");
+
+                }
+            });
+
+            builder.show();
+
+        }else {
+            View parentLayout = findViewById(android.R.id.content);
+            Snackbar.make(parentLayout,"Antes, insira uma disciplina",Snackbar.LENGTH_LONG).show();
+        }
+
+    }
+    private void removeDisciplina(Diciplina d){
+       DiciplinasViewModel viewModel = new DiciplinasViewModel(getApplication());
+       viewModel.remove_disciplina(d);
+       mDiciplinas.remove(d);
+    }
     private List<Item> buildItemList() {
         List<Item> itemList = new ArrayList<>();
         for (int i = 0; i < mDiciplinas.size(); i++) {
@@ -248,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Diciplina... diciplinas) {
             Log.i(TAG, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXx");
             Log.i(TAG, diciplinas[0].diciplina);
-            paraLoop( mDao.getFotosPorDiciplina(diciplinas[0].caminho));
+            paraLoop(mDao.getFotosPorDiciplina(diciplinas[0].caminho));
             return null;
         }
     }
