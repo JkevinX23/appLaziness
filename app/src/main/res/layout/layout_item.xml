@@ -38,12 +38,21 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1" />
+
+                <ImageButton
+
+                    android:id="@+id/image_edit_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:src="@drawable/ic_mode_edit_black_36dp"/>
+
                 <ImageButton
                     android:id="@+id/image_button_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:src="@drawable/ic_photo_camera_amarelo_36dp"
+                    android:src="@drawable/ic_camera_alt_black_36dp"
 
                     />
             </LinearLayout>

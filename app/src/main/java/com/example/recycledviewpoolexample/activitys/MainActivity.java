@@ -72,13 +72,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void carregar_diciplinas() {
+        Log.i(TAG, "carregarDic()");
         DiciplinasViewModel viewModel = new ViewModelProvider(this).get(DiciplinasViewModel.class);
         final List<Diciplina> listDic = new ArrayList<>();
         mDiciplinas = new ArrayList<>();
         viewModel.getmAllDics().observe(this, new Observer<List<Diciplina>>() {
             @Override
             public void onChanged(List<Diciplina> diciplinas) {
+                RecyclerView rvItem = findViewById(R.id.rv_item);
                 for (int i = 0; i < diciplinas.size(); i++) {
+                    TextView tv = findViewById(R.id.tv_nenhuma_diciplina_main);
+                    rvItem.setVisibility(View.VISIBLE);
+                    tv.setVisibility(View.GONE);
 
                     if (!(listDic.contains((diciplinas.get(i))))) {
                         Log.i(TAG, "NELOREEEE ::: " + diciplinas.get(i).diciplina);
@@ -87,21 +92,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-
-                RecyclerView rvItem = findViewById(R.id.rv_item);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
                 ItemAdapter itemAdapter = new ItemAdapter(getApplicationContext(), buildItemList());
                 rvItem.setAdapter(itemAdapter);
                 rvItem.setLayoutManager(layoutManager);
-
-                TextView tv = findViewById(R.id.tv_nenhuma_diciplina_main);
-                if (listDic.size() > 0) {
-                    rvItem.setVisibility(View.VISIBLE);
-                    tv.setVisibility(View.GONE);
-                } else {
-                    rvItem.setVisibility(View.GONE);
-                    tv.setVisibility(View.VISIBLE);
-                }
             }
         });
     }
@@ -114,6 +108,9 @@ public class MainActivity extends AppCompatActivity {
             mFolders = new ArrayList();
             int size = files.length;
             Log.i(TAG, "EXISTEM " + size + " FILES NO DIRETORIO");
+            if(size==0)
+                nenhumaDiciplinaTextView();
+            else
             for (int i = 0; i < size; i++) {
                 Log.i(TAG, "FILE: " + files[i].getName());
                 if (files[i].isDirectory()) {
@@ -123,9 +120,19 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
 
-        } else
+        } else{
             Log.i(TAG, "NENHUMA PASTA ENCONTRADA");
+            nenhumaDiciplinaTextView();
+        }
+
         return false;
+    }
+
+    private void nenhumaDiciplinaTextView() {
+        TextView tv = findViewById(R.id.tv_nenhuma_diciplina_main);
+        RecyclerView rvItem = findViewById(R.id.rv_item);
+        rvItem.setVisibility(View.GONE);
+        tv.setVisibility(View.VISIBLE);
     }
 
     private boolean verificarPermissoes() {

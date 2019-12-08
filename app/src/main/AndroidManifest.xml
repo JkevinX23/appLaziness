@@ -18,9 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activitys.EditarDisciplinaActivity"></activity>
         <activity
             android:name=".activitys.RegistrarUsuarioActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activitys.LoginActivity"
             android:windowSoftInputMode="adjustResize">
@@ -32,11 +33,11 @@
         </activity>
         <activity android:name=".activitys.TakePhotoActivity" />
         <activity android:name=".activitys.CadastrarDiciplinaActivity" />
-        <activity android:name=".activitys.MainActivity"></activity>
+        <activity android:name=".activitys.MainActivity" />
 
         <service
             android:name=".AuthAsyncIntentService"
-            android:exported="false"/>
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -47,8 +48,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
-
     </application>
 
 </manifest>

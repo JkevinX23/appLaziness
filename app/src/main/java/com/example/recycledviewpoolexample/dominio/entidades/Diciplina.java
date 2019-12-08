@@ -8,8 +8,10 @@ import androidx.room.PrimaryKey;
 
 import com.example.recycledviewpoolexample.Constantes;
 
+import java.io.Serializable;
+
 @Entity(tableName = Constantes.nome_tabela_diciplinas)
-public class Diciplina {
+public class Diciplina implements Serializable {
 
     @PrimaryKey()
     @NonNull

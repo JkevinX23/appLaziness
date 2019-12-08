@@ -50,7 +50,7 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemV
                 fis = new FileInputStream(file);
                 BufferedInputStream bufferedInputStream = new BufferedInputStream(fis);
                 Bitmap foto = BitmapFactory.decodeStream(bufferedInputStream);
-                Bitmap resized = Bitmap.createScaledBitmap(foto, 60, 60, false);
+                Bitmap resized = Bitmap.createScaledBitmap(foto, 100, 100, false);
                 subItemViewHolder.iv.setImageBitmap(resized);
                 subItemViewHolder.data.setText(fotoObject.data);
             } catch (FileNotFoundException e) {

@@ -17,6 +17,7 @@
     </Toolbar>
 
     <TextView
+        android:id="@+id/tv_bem_vindoCadastrarDic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Bem vindo \n Vamos organizarmos suas fotos"
@@ -64,7 +65,7 @@
         android:theme="@style/EditeTextTheme"/>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/bt_confirmar_cadastro_disciplina"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

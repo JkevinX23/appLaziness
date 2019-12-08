@@ -20,7 +20,11 @@ public interface DiciplinasDao {
     @Query("DELETE FROM "+ Constantes.nome_tabela_diciplinas)
     void delete_diciplina_all();
 
-    @Query("SELECT  * FROM "+ Constantes.nome_tabela_diciplinas )
+
+    @Query("UPDATE diciplinas SET nome=:disciplina, professor = :professor, periodo=:periodo WHERE caminho_pasta=:id")
+    void update_diciplina(String disciplina, String professor, int periodo,String id);
+
+    @Query("SELECT  * FROM "+ Constantes.nome_tabela_diciplinas)
     LiveData<List<Diciplina>> getAllDiciplinas();
 
 }

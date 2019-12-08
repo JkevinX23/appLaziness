@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.recycledviewpoolexample.Constantes;
 import com.example.recycledviewpoolexample.Item;
 import com.example.recycledviewpoolexample.R;
+import com.example.recycledviewpoolexample.activitys.EditarDisciplinaActivity;
 import com.example.recycledviewpoolexample.activitys.TakePhotoActivity;
 import com.example.recycledviewpoolexample.dominio.entidades.Diciplina;
 
@@ -73,6 +74,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
             }
         });
+
+        itemViewHolder.editDic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(itemViewHolder.editDic.getContext(), EditarDisciplinaActivity.class);
+                intent.putExtra("disciplina",diciplina);
+
+                itemViewHolder.editDic.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -84,6 +95,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         private TextView tvItemTitle;
         private RecyclerView rvSubItem;
         private ImageButton imageButton;
+        private ImageButton editDic;
 
 
         ItemViewHolder(View itemView) {
@@ -91,6 +103,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             imageButton = itemView.findViewById(R.id.image_button_item);
             tvItemTitle = itemView.findViewById(R.id.tv_item_title);
             rvSubItem = itemView.findViewById(R.id.rv_sub_item);
+            editDic = itemView.findViewById(R.id.image_edit_item);
         }
     }
 }
