@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activitys.EditarDisciplinaActivity"></activity>
+        <activity android:name=".activitys.EditarDisciplinaActivity" />
         <activity
             android:name=".activitys.RegistrarUsuarioActivity"
             android:windowSoftInputMode="adjustResize" />

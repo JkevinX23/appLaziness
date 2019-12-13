@@ -96,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (resultData != null)
                     if (resultData.getBoolean(Constantes.AUTH_KEY)) {
                         MainActivity.EMAIL_USER = mEmail;
+                        finish();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     } else Snackbar.make(mView, "Senha incorreta", Snackbar.LENGTH_LONG).show();
             } else Snackbar.make(mView, "Email nao cadastrado", Snackbar.LENGTH_LONG).show();

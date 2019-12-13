@@ -1,19 +1,30 @@
 package com.example.recycledviewpoolexample.adapters;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recycledviewpoolexample.R;
 import com.example.recycledviewpoolexample.SubItem;
+import com.example.recycledviewpoolexample.activitys.MainActivity;
+import com.example.recycledviewpoolexample.activitys.RegistrarUsuarioActivity;
 import com.example.recycledviewpoolexample.dominio.entidades.Foto;
+import com.example.recycledviewpoolexample.dominio.repositorios.FotoRepositorio;
+
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -21,13 +32,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import static com.example.recycledviewpoolexample.activitys.MainActivity.MY_ROOT;
-
 public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemViewHolder> {
-
     private List<SubItem> subItemList;
-
-    SubItemAdapter(List<SubItem> subItemList) {
+    SubItemAdapter(Context context, List<SubItem> subItemList) {
         this.subItemList = subItemList;
     }
 
@@ -39,9 +46,9 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SubItemViewHolder subItemViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final SubItemViewHolder subItemViewHolder, int i) {
         SubItem subItem = subItemList.get(i);
-        Foto fotoObject = subItem.getSubItemImage();
+        final Foto fotoObject = subItem.getSubItemImage();
 
         File file = new File(subItem.getPasta().caminho+ File.separator + fotoObject.nome_foto);
         if (file.exists() && file.canRead()) {
@@ -57,10 +64,55 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemV
                 e.printStackTrace();
             }
         }
+        subItemViewHolder.iv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(final View v) {
+
+                Log.i("NELROE","POSICAO SUBITEM ::"+ subItemViewHolder.getAdapterPosition());
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setTitle("Deseja excluir a foto?");
+
+                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                        v.getContext(),
+                        android.R.layout.select_dialog_singlechoice);
+
+                builder.setAdapter(arrayAdapter,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        apagarImagem(v,fotoObject,subItemViewHolder.getAdapterPosition());
+                    }
+                });
+                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
 
 
-        // SubItem subItem = subItemList.get(i);
-        // subItemViewHolder.tvSubItemTitle.setText(subItem.getSubItemTitle());
+
+                return false;
+            }
+        });
+    }
+
+    private void apagarImagem(View v,Foto foto,int pos) {
+        Activity activity =(Activity)v.getContext();
+        FotoRepositorio frep = new FotoRepositorio(activity.getApplication());
+        frep.deleteFoto(foto);
+        subItemList.remove(pos);
+        notifyItemRemoved(pos);
+        notifyItemRangeChanged(pos, subItemList.size());
+
     }
 
     @Override

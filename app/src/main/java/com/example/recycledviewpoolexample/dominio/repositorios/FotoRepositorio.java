@@ -22,16 +22,35 @@ public class FotoRepositorio {
         new insertFotoAsyncTask(mDao).execute(foto);
     }
 
-    public static class insertFotoAsyncTask extends AsyncTask<Foto, Void, Void> {
+    public void deleteFoto(Foto foto) {
+        new deleteFotoAsyncTask(mDao).execute(foto);
+    }
+
+    private static class insertFotoAsyncTask extends AsyncTask<Foto, Void, Void> {
         private FotoDao mDao;
 
-        public insertFotoAsyncTask(FotoDao dao) {
+        insertFotoAsyncTask(FotoDao dao) {
             mDao = dao;
         }
 
         @Override
         protected Void doInBackground(Foto... fotos) {
             mDao.insert_foto(fotos[0]);
+            return null;
+        }
+    }
+
+    private static class deleteFotoAsyncTask extends AsyncTask<Foto, Void, Void> {
+        private FotoDao mDao;
+
+        deleteFotoAsyncTask(FotoDao mDao) {
+            this.mDao = mDao;
+        }
+
+
+        @Override
+        protected Void doInBackground(Foto... fotos) {
+            mDao.remove_foto(fotos[0]);
             return null;
         }
     }

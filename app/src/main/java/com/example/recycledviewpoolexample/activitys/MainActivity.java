@@ -200,15 +200,20 @@ public class MainActivity extends AppCompatActivity {
                     i.putExtra("email", EMAIL_USER);
                     startActivity(i);
                 }
-
-
                 if (R.id.menu_item_remover_dic == item.getItemId()) {
-                    Log.i("NELORE", "hueheuehueheueh");
                     removeDisciplina();
+                }
+                if(R.id.menu_logout == item.getItemId()){
+                    logout();
                 }
                 return true;
             }
         });
+    }
+
+    private void logout() {
+        finish();
+        startActivity(new Intent(getApplicationContext(),LoginActivity.class));
     }
 
     private void removeDisciplina() {
@@ -217,11 +222,10 @@ public class MainActivity extends AppCompatActivity {
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 MainActivity.this,
                 android.R.layout.simple_list_item_single_choice);
-        if(!mDiciplinas.isEmpty()){
-            for (int i = 0; i<mDiciplinas.size();i++){
+        if (!mDiciplinas.isEmpty()) {
+            for (int i = 0; i < mDiciplinas.size(); i++) {
                 arrayAdapter.add(mDiciplinas.get(i).diciplina);
             }
-            final int[] select = {0};
             builder.setSingleChoiceItems(arrayAdapter, 1, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -230,31 +234,33 @@ public class MainActivity extends AppCompatActivity {
             builder.setPositiveButton("CONFIRMAR", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Log.i(TAG,"pode apagar seu puto");
+                    Log.i(TAG, "pode apagar seu puto");
                     removeDisciplina(mDiciplinas.get(which));
                 }
             });
             builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Log.i(TAG,"VAI APAGAR NADA AQUII NAO");
+                    Log.i(TAG, "VAI APAGAR NADA AQUII NAO");
 
                 }
             });
 
             builder.show();
 
-        }else {
+        } else {
             View parentLayout = findViewById(android.R.id.content);
-            Snackbar.make(parentLayout,"Antes, insira uma disciplina",Snackbar.LENGTH_LONG).show();
+            Snackbar.make(parentLayout, "Antes, insira uma disciplina", Snackbar.LENGTH_LONG).show();
         }
 
     }
-    private void removeDisciplina(Diciplina d){
-       DiciplinasViewModel viewModel = new DiciplinasViewModel(getApplication());
-       viewModel.remove_disciplina(d);
-       mDiciplinas.remove(d);
+
+    private void removeDisciplina(Diciplina d) {
+        DiciplinasViewModel viewModel = new DiciplinasViewModel(getApplication());
+        viewModel.remove_disciplina(d);
+        mDiciplinas.remove(d);
     }
+
     private List<Item> buildItemList() {
         List<Item> itemList = new ArrayList<>();
         for (int i = 0; i < mDiciplinas.size(); i++) {
@@ -284,6 +290,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getSubItem(Diciplina dic) {
+
         new getFotosAsyncTask(fotoDao).execute(dic);
         while (service == 0) {
             Log.i(TAG, "RODANDO O LOOOOPP");

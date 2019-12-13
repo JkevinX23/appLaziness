@@ -137,7 +137,6 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
 
         user.setEmail(email);
         user.setSenha(senha);
-
         aluno.usuario = email;
         aluno.curso = curso;
         aluno.idade = Integer.parseInt(idade);

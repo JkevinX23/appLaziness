@@ -56,7 +56,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         );
         layoutManager.setInitialPrefetchItemCount(item.getSubItemList().size());
 
-        SubItemAdapter subItemAdapter = new SubItemAdapter(item.getSubItemList());
+        SubItemAdapter subItemAdapter = new SubItemAdapter(mContext,item.getSubItemList());
 
         itemViewHolder.rvSubItem.setLayoutManager(layoutManager);
         itemViewHolder.rvSubItem.setAdapter(subItemAdapter);

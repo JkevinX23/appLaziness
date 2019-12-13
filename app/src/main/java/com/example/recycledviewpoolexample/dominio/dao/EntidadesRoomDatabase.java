@@ -2,11 +2,9 @@ package com.example.recycledviewpoolexample.dominio.dao;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.recycledviewpoolexample.dominio.entidades.Aluno;
 import com.example.recycledviewpoolexample.dominio.entidades.Diciplina;
@@ -19,7 +17,7 @@ import com.example.recycledviewpoolexample.dominio.entidades.Usuario;
         Usuario.class,
         Aluno.class,
         Foto.class},
-        version = 1,
+        version = 2,
         exportSchema = false)
 public abstract class EntidadesRoomDatabase extends RoomDatabase {
     public abstract DiciplinasDao dicDao();
