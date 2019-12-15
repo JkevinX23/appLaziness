@@ -12,18 +12,22 @@ public class AlunoRepositorio {
 
     private AlunosDao mDao;
 
-    public AlunoRepositorio(Application application){
+    public AlunoRepositorio(Application application) {
         EntidadesRoomDatabase db = EntidadesRoomDatabase.getDatabase(application);
         Log.i("NELORE", "mDao EXISTE");
         mDao = db.alunosDao();
     }
 
-    public void inserir_aluno(Aluno aluno){
-       new inserirAlunoAsyncTask(mDao).execute(aluno);
+    public void inserir_aluno(Aluno aluno) {
+        new inserirAlunoAsyncTask(mDao).execute(aluno);
     }
 
-    private static class inserirAlunoAsyncTask extends AsyncTask<Aluno,Void,Void> {
-       private AlunosDao alunosDao;
+    public void atualizar_aluno(Aluno aluno1) {
+        new atualizarAlunoAsyncTask(mDao).execute(aluno1);
+    }
+
+    private static class inserirAlunoAsyncTask extends AsyncTask<Aluno, Void, Void> {
+        private AlunosDao alunosDao;
 
         inserirAlunoAsyncTask(AlunosDao mDao) {
             alunosDao = mDao;
@@ -32,6 +36,20 @@ public class AlunoRepositorio {
         @Override
         protected Void doInBackground(Aluno... alunos) {
             alunosDao.insert_aluno(alunos[0]);
+            return null;
+        }
+    }
+
+    private static class atualizarAlunoAsyncTask extends AsyncTask<Aluno, Void, Void> {
+        AlunosDao dao;
+
+        atualizarAlunoAsyncTask(AlunosDao mDao) {
+            dao = mDao;
+        }
+
+        @Override
+        protected Void doInBackground(Aluno... alunos) {
+            dao.update_aluno(alunos[0]);
             return null;
         }
     }

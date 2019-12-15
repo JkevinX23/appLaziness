@@ -1,5 +1,6 @@
 package com.example.recycledviewpoolexample.dominio.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -21,6 +22,10 @@ public interface FotoDao {
 
     @Query("SELECT * FROM foto WHERE id_diciplina=:id_diciplina")
     List<Foto> getFotosPorDiciplina(String id_diciplina);
+
+    @Query("SELECT * FROM foto WHERE id_diciplina=:id_diciplina")
+    LiveData<List<Foto>> getFotosPorDiciplinaLiveData(String id_diciplina);
+
 
     @Query("SELECT * FROM foto WHERE data=:data")
     List<Foto> getFotosPorData(String data);

@@ -34,6 +34,7 @@ import java.util.List;
 
 public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemViewHolder> {
     private List<SubItem> subItemList;
+
     SubItemAdapter(Context context, List<SubItem> subItemList) {
         this.subItemList = subItemList;
     }
@@ -50,7 +51,7 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemV
         SubItem subItem = subItemList.get(i);
         final Foto fotoObject = subItem.getSubItemImage();
 
-        File file = new File(subItem.getPasta().caminho+ File.separator + fotoObject.nome_foto);
+        File file = new File(subItem.getPasta().caminho + File.separator + fotoObject.nome_foto);
         if (file.exists() && file.canRead()) {
             FileInputStream fis = null;
             try {
@@ -68,7 +69,7 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemV
             @Override
             public boolean onLongClick(final View v) {
 
-                Log.i("NELROE","POSICAO SUBITEM ::"+ subItemViewHolder.getAdapterPosition());
+                Log.i("NELROE", "POSICAO SUBITEM ::" + subItemViewHolder.getAdapterPosition());
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setTitle("Deseja excluir a foto?");
@@ -87,7 +88,7 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemV
                 builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        apagarImagem(v,fotoObject,subItemViewHolder.getAdapterPosition());
+                        apagarImagem(v, fotoObject, subItemViewHolder.getAdapterPosition());
                     }
                 });
                 builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
@@ -98,15 +99,13 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemV
                 });
                 builder.show();
 
-
-
                 return false;
             }
         });
     }
 
-    private void apagarImagem(View v,Foto foto,int pos) {
-        Activity activity =(Activity)v.getContext();
+    private void apagarImagem(View v, Foto foto, int pos) {
+        Activity activity = (Activity) v.getContext();
         FotoRepositorio frep = new FotoRepositorio(activity.getApplication());
         frep.deleteFoto(foto);
         subItemList.remove(pos);

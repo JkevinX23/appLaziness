@@ -21,6 +21,10 @@ public interface AlunosDao {
     @Delete
     void delete_aluno(Aluno aluno);
 
+    @Update
+    void update_aluno(Aluno aluno);
+
+
     @Query("DELETE FROM aluno")
     void deleteAll_aluno();
 
@@ -29,6 +33,9 @@ public interface AlunosDao {
 
     @Query("SELECT * FROM aluno WHERE id_usuario=:id_user")
     List<Aluno> getAlunoFromIdUser(String id_user);
+
+    @Query("SELECT * FROM aluno WHERE id_usuario=:id_user")
+    LiveData<List<Aluno>> getAlunoFromIdUserLiveData(String id_user);
 
     @Query("UPDATE aluno SET nome=:nome WHERE id_usuario=:id_user")
     void updateNomeAluno(String nome, String id_user);

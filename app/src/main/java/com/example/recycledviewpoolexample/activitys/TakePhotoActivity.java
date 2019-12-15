@@ -20,8 +20,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.example.recycledviewpoolexample.activitys.MainActivity.MY_ROOT;
-
 
 public class TakePhotoActivity extends AppCompatActivity {
 
@@ -90,7 +88,6 @@ public class TakePhotoActivity extends AppCompatActivity {
     private void salvarNoBanco(Intent i) {
         Foto foto = new Foto();
         foto.nome_foto = nomeFoto;
-
     }
 
     private File create_foto_file(String caminho) throws IOException {

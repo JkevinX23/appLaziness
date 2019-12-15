@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +41,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -195,6 +197,12 @@ public class MainActivity extends AppCompatActivity {
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                if(R.id.menu_item_perfil == item.getItemId()){
+                    Intent i = new Intent(getApplicationContext(), PerfilUsuarioActivity.class);
+                    i.putExtra("email", EMAIL_USER);
+                    i.putExtra("dicList", (Serializable) mDiciplinas);
+                    startActivity(i);
+                }
                 if (R.id.menu_item_cadastrar_dic == item.getItemId()) {
                     Intent i = new Intent(getApplicationContext(), CadastrarDiciplinaActivity.class);
                     i.putExtra("email", EMAIL_USER);

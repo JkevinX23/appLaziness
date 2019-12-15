@@ -31,6 +31,9 @@ public class UsuarioRepositorio {
         new insertAsyncTask(mDao).execute(user);
     }
 
+    public void atualizar_user(Usuario user) { new atualizarAsyncTask(mDao).execute(user);}
+
+
     private static class insertAsyncTask extends AsyncTask<Usuario, Void, Void> {
 
         private UsuariosDao mAsyncTaskDao;
@@ -50,6 +53,21 @@ public class UsuarioRepositorio {
             Log.i("NELORE", "INSERIU ");
         }
     }
+
+    private class atualizarAsyncTask extends AsyncTask<Usuario,Void,Void>{
+        UsuariosDao mDao;
+        public atualizarAsyncTask(UsuariosDao mDao) {
+        this.mDao = mDao;
+        }
+
+        @Override
+        protected Void doInBackground(Usuario... usuarios) {
+            mDao.updateUser(usuarios[0]);
+            return null;
+        }
+    }
+
+
 
 
 

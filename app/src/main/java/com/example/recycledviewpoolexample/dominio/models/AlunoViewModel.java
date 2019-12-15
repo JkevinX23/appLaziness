@@ -22,4 +22,7 @@ public class AlunoViewModel extends AndroidViewModel {
         mRepositorio.inserir_aluno(aluno);
     }
 
+    public void atualizar_aluno(Aluno aluno1) {
+        mRepositorio.atualizar_aluno(aluno1);
+    }
 }

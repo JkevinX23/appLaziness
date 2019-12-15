@@ -8,11 +8,16 @@ import androidx.room.PrimaryKey;
 
 import com.example.recycledviewpoolexample.Constantes;
 
-@Entity(tableName = "aluno", foreignKeys = @ForeignKey(entity = Usuario.class,
+import java.io.Serializable;
+
+@Entity(tableName = "aluno", foreignKeys =
+
+@ForeignKey(entity = Usuario.class,
         parentColumns = Constantes.email_tabela_usuario,
         childColumns = "id_usuario",
         onUpdate = ForeignKey.CASCADE))
-public class Aluno {
+
+public class Aluno implements Serializable {
 
 
     @PrimaryKey
