@@ -17,7 +17,7 @@ import com.example.recycledviewpoolexample.dominio.entidades.Usuario;
         Usuario.class,
         Aluno.class,
         Foto.class},
-        version = 2,
+        version = 3,
         exportSchema = false)
 public abstract class EntidadesRoomDatabase extends RoomDatabase {
     public abstract DiciplinasDao dicDao();

@@ -20,9 +20,9 @@ import com.example.recycledviewpoolexample.dominio.models.DiciplinasViewModel;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
-import java.util.Objects;
 
 public class CadastrarDiciplinaActivity extends AppCompatActivity {
+    public final String TAG = Constantes.TAG+"_CAD_DIS_ACT";
 
     private String mEmail;
 
@@ -40,15 +40,15 @@ public class CadastrarDiciplinaActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         Bundle b = i.getExtras();
-       if(b!=null){
-           mEmail = b.getString("email");
-           Log.i("NELORE", "EMAIL USUARIO :: "+mEmail);
-       }
+        if (b != null) {
+            mEmail = b.getString("email");
+            Log.i(TAG, "EMAIL USUARIO :: " + mEmail);
+        }
 
 
         Toolbar tb = findViewById(R.id.tb_cadastro_diciplinas);
         setSupportActionBar(tb);
-        
+
 
     }
 
@@ -58,7 +58,7 @@ public class CadastrarDiciplinaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 limparCampos();
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
 
@@ -100,8 +100,9 @@ public class CadastrarDiciplinaActivity extends AppCompatActivity {
             dic.append(professor);
             dic.append(periodo);
 
-            inserir_banco(nome_dic, professor, periodo);
-            criar_diretorio(nome_dic);
+            nome_dic = nome_dic.replaceAll("\\s+", "");
+            inserirBanco(nome_dic, professor, periodo);
+            criarDiretorio(nome_dic);
             limparCampos();
 
         }
@@ -109,17 +110,17 @@ public class CadastrarDiciplinaActivity extends AppCompatActivity {
 
     }
 
-    private void inserir_banco(String nome_dic, String professor, int periodo) {
+    private void inserirBanco(String nome_dic, String professor, int periodo) {
         Diciplina dic = new Diciplina();
         dic.diciplina = nome_dic;
         dic.professor = professor;
         dic.periodo = periodo;
-        dic.caminho = LOCAL_FOTOS+File.separator+nome_dic;
+        dic.caminho = LOCAL_FOTOS + File.separator + nome_dic;
         dic.userId = mEmail;
-        dvm.insert_dic(dic);
+        dvm.insertDic(dic);
     }
 
-    private void criar_diretorio(String nome_folder) {
+    private void criarDiretorio(String nome_folder) {
 
         nome_folder = nome_folder.replaceAll("\\s", "");
 
@@ -128,24 +129,23 @@ public class CadastrarDiciplinaActivity extends AppCompatActivity {
                 + File.separator
                 + nome_folder);
 
-
         boolean success = true;
         if (!folder.exists()) {
             success = folder.mkdirs();
         }
         if (success) {
-            Log.i(Constantes.TAG, "PASTA CRIADA");
+            Log.i(TAG, "PASTA CRIADA");
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
         } else {
-            Log.i(Constantes.TAG, "NOME JA CADASTRADO");
+            Log.i(TAG, "NOME JA CADASTRADO");
             Toast.makeText(getApplicationContext(), "DICIPLINA JÁ CADASTRADA ", Toast.LENGTH_LONG).show();
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-           limparCampos();
+            limparCampos();
         }
     }
 }

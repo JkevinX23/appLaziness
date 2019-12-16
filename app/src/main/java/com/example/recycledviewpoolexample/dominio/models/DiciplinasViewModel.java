@@ -14,7 +14,6 @@ public class DiciplinasViewModel extends AndroidViewModel {
 
     private DiciplinaRepositorio mRepositorio;
     private LiveData<List<Diciplina>> mAllDics;
-    private LiveData<List<Diciplina>> lDisciplinasByUSer;
 
     public DiciplinasViewModel(Application application) {
         super(application);
@@ -23,7 +22,7 @@ public class DiciplinasViewModel extends AndroidViewModel {
         mAllDics = mRepositorio.getAlldic();
     }
 
-    public void remove_disciplina(Diciplina d){
+    public void removeDisciplina(Diciplina d){
         mRepositorio.deleteDisciplina(d);
     }
 
@@ -35,7 +34,7 @@ public class DiciplinasViewModel extends AndroidViewModel {
         return mAllDics;
     }
 
-    public void insert_dic(Diciplina diciplina){
+    public void insertDic(Diciplina diciplina){
         mRepositorio.insert_dic(diciplina);
     }
 }

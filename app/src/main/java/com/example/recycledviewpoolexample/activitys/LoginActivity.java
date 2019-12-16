@@ -68,17 +68,10 @@ public class LoginActivity extends AppCompatActivity {
         mEmail = email;
         startService(intent);
 
-        /*
-
-        UsuariosViewModel usuariosViewModel = new UsuariosViewModel(getApplication());
-        if(usuariosViewModel.getUsuario(email,senha)){
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-        }
-        Log.i("NELORE", " NOME DO USUARIO ::: ");*/
     }
 
     private class AsyncAuthResultReciver extends ResultReceiver {
-        public AsyncAuthResultReciver(Handler handler) {
+        AsyncAuthResultReciver(Handler handler) {
             super(handler);
         }
 

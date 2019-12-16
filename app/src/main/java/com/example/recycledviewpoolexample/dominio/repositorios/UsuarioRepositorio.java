@@ -18,20 +18,18 @@ public class UsuarioRepositorio {
         Log.i("NELORE", "mDao EXISTE");
         mDao = db.userDao();
     }
-/*
-    public Boolean getUser(String email, String senha) {
 
-        Log.i("NELORE", "CHEGOU NO REPOSITORIO");
-        Log.i("NELORE", "EMAIL :::: "+email);
-        Log.i("NELORE", "SENHA :::: "+senha);
-        //new getUserAsyncTask(mDao).execute(email,senha);
-        return true;
-    }*/
-    public void inserir_usuario(Usuario user){
+    public void inserir_usuario(Usuario user) {
         new insertAsyncTask(mDao).execute(user);
     }
 
-    public void atualizar_user(Usuario user) { new atualizarAsyncTask(mDao).execute(user);}
+    public void atualizar_user(Usuario user) {
+        new atualizarAsyncTask(mDao).execute(user);
+    }
+
+    public void delete_user(Usuario user) {
+        new deleteAsyncTask(mDao).execute(user);
+    }
 
 
     private static class insertAsyncTask extends AsyncTask<Usuario, Void, Void> {
@@ -41,6 +39,7 @@ public class UsuarioRepositorio {
         insertAsyncTask(UsuariosDao dao) {
             mAsyncTaskDao = dao;
         }
+
         @Override
         protected Void doInBackground(final Usuario... params) {
             mAsyncTaskDao.inserir_usuario(params[0]);
@@ -54,10 +53,11 @@ public class UsuarioRepositorio {
         }
     }
 
-    private class atualizarAsyncTask extends AsyncTask<Usuario,Void,Void>{
+    private static class atualizarAsyncTask extends AsyncTask<Usuario, Void, Void> {
         UsuariosDao mDao;
-        public atualizarAsyncTask(UsuariosDao mDao) {
-        this.mDao = mDao;
+
+        atualizarAsyncTask(UsuariosDao mDao) {
+            this.mDao = mDao;
         }
 
         @Override
@@ -68,51 +68,22 @@ public class UsuarioRepositorio {
     }
 
 
-
-
-
-
-    /*private static class getUserAsyncTask extends AsyncTask<String, Void, Boolean >{
-        private UsuariosDao dao;
-
-        private getUserAsyncTask(UsuariosDao dao) {
-            this.dao = dao;
+    private static class deleteAsyncTask extends AsyncTask<Usuario, Void, Void> {
+        UsuariosDao dao;
+        deleteAsyncTask(UsuariosDao mDao) {
+        dao = mDao;
         }
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        protected Void doInBackground(Usuario... usuarios) {
+            dao.deleteUser(usuarios[0]);
+            return null;
         }
 
         @Override
-        protected Boolean doInBackground(String... strings) {
-            Log.i("NELORE", "doInBack :: email :: "+strings[0]);
-            Log.i("NELORE", "doInBack :: senha :: "+strings[1]);
-
-            Usuario usuario = new Usuario();
-            Boolean validar = false;
-            try{
-                 usuario = dao.get_user(strings[0]).get(0);
-                 if(usuario.getSenha().equals(strings[1])){
-                     validar = true;
-                 }
-            }catch (Exception e){
-                Log.i("NELORE","Usuario nao cadastrado");
-
-            }
-
-            return validar;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
-
-            if(result){
-               Log.i("NELORE","ENTRAR");
-            }
-            else Log.i("NELORE", "Usuario nao cadastrado");
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            android.os.Process.killProcess(android.os.Process.myPid());
         }
     }
-*/
 }

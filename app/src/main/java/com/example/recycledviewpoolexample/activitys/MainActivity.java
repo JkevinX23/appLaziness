@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +26,6 @@ import com.example.recycledviewpoolexample.Item;
 import com.example.recycledviewpoolexample.R;
 import com.example.recycledviewpoolexample.SubItem;
 import com.example.recycledviewpoolexample.adapters.ItemAdapter;
-import com.example.recycledviewpoolexample.dominio.dao.DiciplinasDao;
 import com.example.recycledviewpoolexample.dominio.dao.EntidadesRoomDatabase;
 import com.example.recycledviewpoolexample.dominio.dao.FotoDao;
 import com.example.recycledviewpoolexample.dominio.entidades.Diciplina;
@@ -53,11 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private FotoDao fotoDao;
 
     public static String EMAIL_USER;
-
     public int service = 0;
-
-    private static final String TAG = "NELORE LOCAIS :::::";
-
+    private static final String TAG = Constantes.TAG+"_MAIN";
     public static final String MY_ROOT = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_PICTURES + File.separator + "laziness";
 
 
@@ -69,16 +64,16 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         verificarPermissoes();
-        criar_root();
+        criarRoot();
         Toolbar mToolbar = findViewById(R.id.tb_main);
         setSupportActionBar(mToolbar);
 
-        if (carregar_mFolders()) {
-            carregar_diciplinas();
+        if (carregarMFolders()) {
+            carregarDiciplinas();
         }
     }
 
-    private void carregar_diciplinas() {
+    private void carregarDiciplinas() {
         Log.i(TAG, "carregarDic()");
         DiciplinasViewModel viewModel = new ViewModelProvider(this).get(DiciplinasViewModel.class);
         final List<Diciplina> listDic = new ArrayList<>();
@@ -94,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     tv.setVisibility(View.GONE);
 
                     if (!(listDic.contains((diciplinas.get(i))))) {
-                        Log.i(TAG, "NELOREEEE ::: " + diciplinas.get(i).diciplina);
+                        Log.i(TAG, "diciplinas.get(i).diciplina : " + diciplinas.get(i).diciplina);
                         listDic.add(diciplinas.get(i));
                         mDiciplinas.add(listDic.get(i));
                     }
@@ -108,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private boolean carregar_mFolders() {
+    private boolean carregarMFolders() {
         File toList = new File(MY_ROOT);
         Log.i(TAG, "LOCAL: " + MY_ROOT);
         File[] files = toList.listFiles();
@@ -181,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         return sucess[0];
     }
 
-    private void criar_root() {
+    private void criarRoot() {
         File folder = new File(MY_ROOT);
         boolean success = true;
         if (!folder.exists()) {
@@ -197,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if(R.id.menu_item_perfil == item.getItemId()){
+                if (R.id.menu_item_perfil == item.getItemId()) {
                     Intent i = new Intent(getApplicationContext(), PerfilUsuarioActivity.class);
                     i.putExtra("email", EMAIL_USER);
                     i.putExtra("dicList", (Serializable) mDiciplinas);
@@ -211,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
                 if (R.id.menu_item_remover_dic == item.getItemId()) {
                     removeDisciplina();
                 }
-                if(R.id.menu_logout == item.getItemId()){
+                if (R.id.menu_logout == item.getItemId()) {
                     logout();
                 }
                 return true;
@@ -221,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void logout() {
         finish();
-        startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
     }
 
     private void removeDisciplina() {
@@ -234,23 +229,24 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < mDiciplinas.size(); i++) {
                 arrayAdapter.add(mDiciplinas.get(i).diciplina);
             }
-            builder.setSingleChoiceItems(arrayAdapter, 1, new DialogInterface.OnClickListener() {
+            final int[] pos = {0};
+            builder.setSingleChoiceItems(arrayAdapter, 0, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    pos[0] = which;
+                    Log.i("NELORE", "marcado ::: " + which);
                 }
             });
             builder.setPositiveButton("CONFIRMAR", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Log.i(TAG, "pode apagar seu puto");
-                    removeDisciplina(mDiciplinas.get(which));
+                    removeDisciplina(mDiciplinas.get(pos[0]));
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 }
             });
             builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Log.i(TAG, "VAI APAGAR NADA AQUII NAO");
-
                 }
             });
 
@@ -265,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void removeDisciplina(Diciplina d) {
         DiciplinasViewModel viewModel = new DiciplinasViewModel(getApplication());
-        viewModel.remove_disciplina(d);
+        viewModel.removeDisciplina(d);
         mDiciplinas.remove(d);
     }
 
@@ -306,9 +302,8 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "SAAAAIIUUUUUUU");
     }
 
-    public class getFotosAsyncTask extends AsyncTask<Diciplina, Void, Void> {
+    private class getFotosAsyncTask extends AsyncTask<Diciplina, Void, Void> {
         FotoDao mDao;
-        List<Foto> mFotos;
 
         getFotosAsyncTask(FotoDao fotoDao) {
             mDao = fotoDao;

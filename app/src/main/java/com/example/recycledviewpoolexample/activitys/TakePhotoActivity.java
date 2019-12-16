@@ -10,6 +10,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import com.example.recycledviewpoolexample.Constantes;
 import com.example.recycledviewpoolexample.R;
 import com.example.recycledviewpoolexample.dominio.dao.EntidadesRoomDatabase;
 import com.example.recycledviewpoolexample.dominio.dao.FotoDao;
@@ -24,14 +25,12 @@ import java.util.Date;
 public class TakePhotoActivity extends AppCompatActivity {
 
 
-    private static final String TAG = "NELORE";
+    private static final String TAG = Constantes.TAG+"_TAKE_PHOTO";
 
     public String nomeFoto;
     public String diciplinaFoto;
     public String horaFoto;
     public String dataFoto;
-    public int periodo;
-
     private FotoDao fotoDao;
 
 
@@ -45,19 +44,22 @@ public class TakePhotoActivity extends AppCompatActivity {
         Intent i = getIntent();
         Bundle b = i.getExtras();
 
+        assert b != null;
         String caminho = b.getString("caminho");
+        assert caminho != null;
+        caminho = caminho.replaceAll("\\s+", "");
         Log.i(TAG, "take_photo " + caminho);
 
-        get_foto_camera(caminho);
+        getFotoCamera(caminho);
     }
 
-    private void get_foto_camera(String caminho) {
+    private void getFotoCamera(String caminho) {
 
         Intent takefotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takefotoIntent.resolveActivity(getPackageManager()) != null) {
             File photo_file = null;
             try {
-                photo_file = create_foto_file(caminho);
+                photo_file = createFotoFile(caminho);
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.i(TAG, "DEEEU RUUIM :: CRIAR PHOTO FILE");
@@ -74,23 +76,12 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            salvarNoBanco(data);
-        }
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(i);
-
-    }
-
     private void salvarNoBanco(Intent i) {
         Foto foto = new Foto();
         foto.nome_foto = nomeFoto;
     }
 
-    private File create_foto_file(String caminho) throws IOException {
+    private File createFotoFile(String caminho) throws IOException {
 
         String data_foto = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         Log.i(TAG, "DATA :: " + data_foto);
@@ -113,16 +104,27 @@ public class TakePhotoActivity extends AppCompatActivity {
         newFoto.hora = hora_foto;
         newFoto.id_diciplina = diciplinaFoto;
 
-        new inserirNoBancoAsyncTask(fotoDao).execute(newFoto);
+        new InserirNoBancoAsyncTask(fotoDao).execute(newFoto);
 
 
         return foto;
     }
 
-    private static class inserirNoBancoAsyncTask extends AsyncTask<Foto, Void, Void> {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            salvarNoBanco(data);
+        }
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(i);
+
+    }
+
+    private static class InserirNoBancoAsyncTask extends AsyncTask<Foto, Void, Void> {
         private FotoDao mDao;
 
-        public inserirNoBancoAsyncTask(FotoDao fotoDao) {
+        InserirNoBancoAsyncTask(FotoDao fotoDao) {
             mDao = fotoDao;
         }
 

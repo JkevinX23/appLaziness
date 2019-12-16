@@ -10,20 +10,23 @@ import com.example.recycledviewpoolexample.Constantes;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(tableName = Constantes.nome_tabela_fotos)
-@ForeignKey(entity = Diciplina.class,
-        parentColumns = Constantes.CAMINHO_PASTA,
-        childColumns = Constantes.id_diciplina_tabela_fotos,
-        onDelete = CASCADE)
+@Entity(tableName = Constantes.NOME_TABELA_FOTOS,
+
+        foreignKeys = @ForeignKey(entity = Diciplina.class,
+                parentColumns = Constantes.CAMINHO_PASTA,
+                childColumns = Constantes.ID_DICIPLINA_TABELA_FOTOS,
+                onDelete = CASCADE,onUpdate = CASCADE))
 
 public class Foto {
 
-    @PrimaryKey@NonNull
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "nome_foto")
     public String nome_foto;
-    @ColumnInfo (name = Constantes.data_tabela_fotos)
+    @ColumnInfo(name = Constantes.DATA_TABELA_FOTOS)
     public String data;
-    @ColumnInfo (name = Constantes.id_diciplina_tabela_fotos)
+    @ColumnInfo(name = Constantes.ID_DICIPLINA_TABELA_FOTOS)
     public String id_diciplina;
-    @ColumnInfo (name = Constantes.hora_tabela_fotos)
+    @ColumnInfo(name = Constantes.HORA_TABELA_FOTOS)
     public String hora;
 }

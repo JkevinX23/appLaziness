@@ -24,5 +24,9 @@ public class UsuariosViewModel extends AndroidViewModel {
     }
 
     public void atualizar_user(Usuario user){mRepositorio.atualizar_user(user);}
+
+    public void deleteUser(Usuario mUsuario) {
+        mRepositorio.delete_user(mUsuario);
+    }
 }
 

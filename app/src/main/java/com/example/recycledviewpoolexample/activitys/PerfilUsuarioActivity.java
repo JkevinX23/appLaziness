@@ -13,21 +13,16 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
+import com.example.recycledviewpoolexample.Constantes;
 import com.example.recycledviewpoolexample.R;
 import com.example.recycledviewpoolexample.dominio.dao.AlunosDao;
-import com.example.recycledviewpoolexample.dominio.dao.DiciplinasDao;
 import com.example.recycledviewpoolexample.dominio.dao.EntidadesRoomDatabase;
-import com.example.recycledviewpoolexample.dominio.dao.FotoDao;
 import com.example.recycledviewpoolexample.dominio.dao.UsuariosDao;
 import com.example.recycledviewpoolexample.dominio.entidades.Aluno;
 import com.example.recycledviewpoolexample.dominio.entidades.Diciplina;
-import com.example.recycledviewpoolexample.dominio.entidades.Foto;
 import com.example.recycledviewpoolexample.dominio.entidades.Usuario;
-import com.example.recycledviewpoolexample.dominio.models.AlunoViewModel;
 import com.example.recycledviewpoolexample.dominio.models.DiciplinasViewModel;
 import com.example.recycledviewpoolexample.dominio.models.UsuariosViewModel;
 import com.google.android.material.snackbar.Snackbar;
@@ -36,6 +31,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public class PerfilUsuarioActivity extends AppCompatActivity {
+
+    public final String TAG = Constantes.TAG+"_PERFIL_USER";
 
     List<Diciplina> mDisciplinas;
     Usuario mUsuario;
@@ -75,25 +72,48 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
         new getAlunoAsyncTask(dao).execute(email);
     }
 
-    private class getAlunoAsyncTask extends AsyncTask<String, Void, Aluno> {
-        AlunosDao dao;
+    public void deleteUser(final View view) {
+        if (mUsuario == null)
+            return;
 
-        getAlunoAsyncTask(AlunosDao dao) {
-            this.dao = dao;
-        }
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(PerfilUsuarioActivity.this);
+        alertDialog.setTitle("Excluir Usuário");
+        alertDialog.setMessage("Olá, para sua segurança, insira sua senha novamente");
 
-        @Override
-        protected Aluno doInBackground(String... strings) {
-            List<Aluno> alunos = dao.getAlunoFromIdUser(strings[0]);
-            return alunos.get(0);
-        }
+        final EditText input = new EditText(PerfilUsuarioActivity.this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        alertDialog.setView(input);
+        //alertDialog.setIcon(R.drawable.key);
 
-        @Override
-        protected void onPostExecute(Aluno aluno) {
-            super.onPostExecute(aluno);
-            setUser(aluno);
-        }
+        final String[] senha = new String[1];
+        alertDialog.setPositiveButton("Confirmar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        senha[0] = input.getText().toString();
+
+                        if (senha[0].equals(mUsuario.getSenha())) {
+                            UsuariosViewModel viewModel = new UsuariosViewModel(getApplication());
+                            viewModel.deleteUser(mUsuario);
+                        } else {
+                            Log.i(TAG, "senha errada");
+                            Snackbar.make(view,"SENHA INCORRETA", Snackbar.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
+        alertDialog.setNegativeButton("Cancelar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+
     }
+
 
     private void setUser(Aluno aluno) {
         preencherCampos(aluno);
@@ -174,13 +194,13 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
                         senha[0] = input.getText().toString();
 
                         if (senha[0].equals(mUsuario.getSenha())) {
-                            Log.i("NELORE", "senha correta");
+                            Log.i(TAG, "senha correta");
                             Intent i = new Intent(getApplicationContext(),EditarPerfilUsuarioActivity.class);
                             i.putExtra("usuario", (Serializable) mUsuario);
                             i.putExtra("aluno", (Serializable) mAluno);
                             startActivity(i);
                         } else {
-                            Log.i("NELORE", "senha errada");
+                            Log.i(TAG, "senha errada");
                             Snackbar.make(view,"SENHA INCORRETA", Snackbar.LENGTH_LONG).show();
                         }
 
@@ -195,10 +215,30 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    private class getAlunoAsyncTask extends AsyncTask<String, Void, Aluno> {
+        AlunosDao dao;
+
+        getAlunoAsyncTask(AlunosDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Aluno doInBackground(String... strings) {
+            List<Aluno> alunos = dao.getAlunoFromIdUser(strings[0]);
+            return alunos.get(0);
+        }
+
+        @Override
+        protected void onPostExecute(Aluno aluno) {
+            super.onPostExecute(aluno);
+            setUser(aluno);
+        }
+    }
+
     private class getUsuarioAsyncTask extends AsyncTask<Aluno, Void, Usuario> {
         UsuariosDao mDao;
 
-        public getUsuarioAsyncTask(UsuariosDao dao) {
+        getUsuarioAsyncTask(UsuariosDao dao) {
             mDao = dao;
         }
 

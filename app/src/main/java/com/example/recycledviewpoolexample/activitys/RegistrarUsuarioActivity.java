@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.recycledviewpoolexample.Constantes;
 import com.example.recycledviewpoolexample.R;
 import com.example.recycledviewpoolexample.dominio.entidades.Aluno;
 import com.example.recycledviewpoolexample.dominio.entidades.Usuario;
@@ -22,6 +23,8 @@ import com.example.recycledviewpoolexample.dominio.models.UsuariosViewModel;
 import com.google.android.material.snackbar.Snackbar;
 
 public class RegistrarUsuarioActivity extends AppCompatActivity {
+
+    public final String TAG = Constantes.TAG + "_REGISTRAR_USER";
 
     public UsuariosViewModel usuariosViewModel;
     public AlunoViewModel alunoViewModel;
@@ -87,7 +90,7 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
                     String curso = et_curso.getText().toString();
                     String sexo = tv_sexo.getText().toString();
 
-                    inserir_banco(nome, email, senha,idade,curso,sexo);
+                    inserirBanco(nome, email, senha, idade, curso, sexo);
                 }
             }
         });
@@ -109,7 +112,7 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
         builder.setAdapter(arrayAdapter,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.i("nelore", arrayAdapter.getItem(which));
+                        Log.i(TAG, arrayAdapter.getItem(which));
                         select[0] = which;
                         dialog.dismiss();
 
@@ -124,14 +127,14 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
                 break;
             case 1:
                 tv.setText("Feminino");
-               break;
+                break;
             case 2:
                 tv.setText("Outro");
-               break;
+                break;
         }
     }
 
-    private void inserir_banco(String nome, String email, String senha,String idade,String curso,String sexo) {
+    private void inserirBanco(String nome, String email, String senha, String idade, String curso, String sexo) {
         Usuario user = new Usuario();
         Aluno aluno = new Aluno();
 
@@ -146,7 +149,7 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
         usuariosViewModel.insert_user(user);
         alunoViewModel.insert_aluno(aluno);
 
-        startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         finish();
     }
 }

@@ -11,28 +11,28 @@ import com.example.recycledviewpoolexample.Constantes;
 
 import java.io.Serializable;
 
-@Entity(tableName = Constantes.nome_tabela_usuario, indices = {@Index(value = Constantes.email_tabela_usuario, unique = true)})
+@Entity(tableName = Constantes.NOME_TABELA_USUARIO, indices = {@Index(value = "id_aluno", unique = true)},
+        foreignKeys = @ForeignKey(entity = Aluno.class,
+        onUpdate = ForeignKey.CASCADE,
+        onDelete = ForeignKey.CASCADE,
+        parentColumns = "id_usuario",
+        childColumns = "id_aluno"))
+
 public class Usuario
         implements Serializable {
 
     @NonNull
     @PrimaryKey
-    @ColumnInfo(name = Constantes.email_tabela_usuario)
+    @ColumnInfo(name = Constantes.EMAIL_TABELA_USUARIO)
     private String email;
 
     @NonNull
-    @ColumnInfo(name = Constantes.senha_usuario_tabela_usuario)
+    @ColumnInfo(name = Constantes.SENHA_USUARIO_TABELA_USUARIO)
     private String senha;
 
 
-
-    @ForeignKey(entity = Aluno.class,
-            onUpdate = ForeignKey.CASCADE,
-            parentColumns = Constantes.id_tabela_aluno,
-            childColumns = "id_aluno")
     @ColumnInfo(name = "id_aluno")
     private String idAluno;
-
 
 
     @NonNull

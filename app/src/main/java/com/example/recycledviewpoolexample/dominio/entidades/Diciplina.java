@@ -14,10 +14,16 @@ import java.io.Serializable;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(tableName = Constantes.nome_tabela_diciplinas,
-        foreignKeys = @ForeignKey(entity = Aluno.class,
+@Entity(tableName = Constantes.NOME_TABELA_DICIPLINAS,
+        foreignKeys = {
+
+        @ForeignKey(entity = Aluno.class,
                 parentColumns = "id_usuario",
-                childColumns = "user_id",onDelete = CASCADE),indices = @Index(value = "user_id",unique = false))
+                childColumns = "user_id",
+                onDelete = CASCADE),
+
+
+        },indices = @Index(value = "user_id",unique = false))
 
 public class Diciplina implements Serializable {
 
@@ -26,13 +32,13 @@ public class Diciplina implements Serializable {
     @ColumnInfo(name = Constantes.CAMINHO_PASTA)
     public String caminho;
 
-    @ColumnInfo(name = Constantes.diciplina_tabela_diciplinas)
+    @ColumnInfo(name = Constantes.DICIPLINA_TABELA_DICIPLINAS)
     public String diciplina;
 
-    @ColumnInfo(name = Constantes.professor_tabela_diciplinas)
+    @ColumnInfo(name = Constantes.PROFESSOR_TABELA_DICIPLINAS)
     public String professor;
 
-    @ColumnInfo(name = Constantes.periodo_tabela_diciplinas)
+    @ColumnInfo(name = Constantes.PERIODO_TABELA_DICIPLINAS)
     public int periodo;
 
     @ColumnInfo

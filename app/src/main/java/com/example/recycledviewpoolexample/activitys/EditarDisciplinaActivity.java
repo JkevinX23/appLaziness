@@ -72,15 +72,15 @@ public class EditarDisciplinaActivity extends AppCompatActivity {
             private void updateDisciplinaBanco() {
                 EntidadesRoomDatabase db = EntidadesRoomDatabase.getDatabase(getApplication());
                 DiciplinasDao dao = db.dicDao();
-                new updateDisciplinaBancoAsyncTask(dao).execute(diciplina);
+                new UpdateDisciplinaBancoAsyncTask(dao).execute(diciplina);
             }
         });
     }
 
-    private static class updateDisciplinaBancoAsyncTask extends AsyncTask<Diciplina, Void, Void> {
+    private static class UpdateDisciplinaBancoAsyncTask extends AsyncTask<Diciplina, Void, Void> {
         DiciplinasDao dao;
 
-        updateDisciplinaBancoAsyncTask(DiciplinasDao dao) {
+        UpdateDisciplinaBancoAsyncTask(DiciplinasDao dao) {
             this.dao = dao;
         }
 

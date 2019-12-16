@@ -104,6 +104,18 @@
             android:textAllCaps="false"
             android:textColor="#FE5295"
             android:textSize="17sp" />
+        <Button
+            android:id="@+id/bt_delete_perfil_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="Apagar Usuario"
+            android:onClick="deleteUser"
+            android:textAllCaps="false"
+            android:textColor="#FE5295"
+            android:textSize="17sp" />
 
 
     </LinearLayout>

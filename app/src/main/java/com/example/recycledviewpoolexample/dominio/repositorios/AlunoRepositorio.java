@@ -18,18 +18,18 @@ public class AlunoRepositorio {
         mDao = db.alunosDao();
     }
 
-    public void inserir_aluno(Aluno aluno) {
-        new inserirAlunoAsyncTask(mDao).execute(aluno);
+    public void inserirAluno(Aluno aluno) {
+        new InserirAlunoAsyncTask(mDao).execute(aluno);
     }
 
-    public void atualizar_aluno(Aluno aluno1) {
-        new atualizarAlunoAsyncTask(mDao).execute(aluno1);
+    public void atualizarAluno(Aluno aluno1) {
+        new AtualizarAlunoAsyncTask(mDao).execute(aluno1);
     }
 
-    private static class inserirAlunoAsyncTask extends AsyncTask<Aluno, Void, Void> {
+    private static class InserirAlunoAsyncTask extends AsyncTask<Aluno, Void, Void> {
         private AlunosDao alunosDao;
 
-        inserirAlunoAsyncTask(AlunosDao mDao) {
+        InserirAlunoAsyncTask(AlunosDao mDao) {
             alunosDao = mDao;
         }
 
@@ -40,10 +40,10 @@ public class AlunoRepositorio {
         }
     }
 
-    private static class atualizarAlunoAsyncTask extends AsyncTask<Aluno, Void, Void> {
+    private static class AtualizarAlunoAsyncTask extends AsyncTask<Aluno, Void, Void> {
         AlunosDao dao;
 
-        atualizarAlunoAsyncTask(AlunosDao mDao) {
+        AtualizarAlunoAsyncTask(AlunosDao mDao) {
             dao = mDao;
         }
 
