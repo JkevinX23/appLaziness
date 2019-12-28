@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="amarelo_escuro">#ff4f5a</color>
+    <color name="amarelo_mais_escuro">#ff4f5a</color>
+
+    <color name="loginprimary">#D81B60</color>
+    <color name="logincolorPrimaryDark">#FE5295</color>
+    <color name="logincolorAccent">#D81B60</color>
+
+    <color name="black_overlay">#66000000</color>
+</resources>
